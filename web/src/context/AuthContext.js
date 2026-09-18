@@ -10,6 +10,8 @@ const AuthContext = createContext({
   isWriter: false,
   login: async (email, password) => {},
   logout: async () => {},
+  signUp: async (email, password) => {},
+  loginWithOAuth: async (provider) => {},
 });
 
 export const AuthProvider = ({ children }) => {
@@ -108,8 +110,40 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const signUp = async (email, password) => {
+    setLoading(true);
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    if (error) {
+      setLoading(false);
+      throw error;
+    }
+    setLoading(false);
+    return data;
+  };
+
+  const loginWithOAuth = async (provider) => {
+    const redirectTo = typeof window !== 'undefined'
+      ? `${window.location.origin}/auth/callback`
+      : undefined;
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo,
+      },
+    });
+
+    if (error) {
+      throw error;
+    }
+    return data;
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, isAdmin, isWriter, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, isAdmin, isWriter, login, logout, signUp, loginWithOAuth }}>
       {children}
     </AuthContext.Provider>
   );

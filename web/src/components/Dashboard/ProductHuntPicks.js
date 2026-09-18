@@ -154,7 +154,7 @@ const styles = {
     width: '100%',
     maxWidth: '100%',
     boxSizing: 'border-box',
-    padding: 'var(--ph-container-padding, 40px 0 20px 0)',
+    padding: 'var(--ph-container-padding, 40px 0 100px 0)',
   },
   header: {
     display: 'flex',
@@ -192,9 +192,9 @@ const styles = {
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'var(--ph-grid-cols, minmax(0, 1.25fr) minmax(0, 1fr))',
+    gridTemplateColumns: 'var(--ph-grid-cols, minmax(0, 1.15fr) minmax(0, 1fr))',
     gap: 'var(--hn-grid-gap, 24px)',
-    alignItems: 'start',
+    alignItems: 'stretch',
     width: '100%',
     maxWidth: '100%',
     boxSizing: 'border-box',
@@ -202,6 +202,7 @@ const styles = {
   spotlightColumn: {
     width: '100%',
     maxWidth: '100%',
+    height: '100%',
     minWidth: 0,
     boxSizing: 'border-box',
   },
@@ -236,6 +237,7 @@ const styles = {
     zIndex: 1,
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'space-between',
     height: '100%',
     width: '100%',
     maxWidth: '100%',
@@ -313,7 +315,8 @@ const styles = {
     fontFamily: theme.typography.fontSans
   },
   spotlightFooter: {
-    marginTop: 'var(--ph-spotlight-footer-margin, 40px)',
+    marginTop: 'auto',
+    paddingTop: 'var(--ph-spotlight-footer-margin, 24px)',
     width: '100%',
     boxSizing: 'border-box',
     display: 'flex',

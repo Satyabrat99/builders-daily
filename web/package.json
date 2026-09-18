@@ -37,6 +37,7 @@
     "@tiptap/react": "^3.26.0",
     "@tiptap/starter-kit": "^3.26.0",
     "@tiptap/suggestion": "^3.26.0",
+    "@vercel/speed-insights": "^2.0.0",
     "date-fns": "^4.4.0",
     "happy-dom": "^20.14.5",
     "highlight.js": "^11.11.1",

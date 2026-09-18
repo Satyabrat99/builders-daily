@@ -1,6 +1,7 @@
 import { Space_Grotesk, Sora, JetBrains_Mono, Lora, Bebas_Neue, Caveat, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-heading",
@@ -97,6 +98,7 @@ export default async function RootLayout({ children }) {
             </BookmarkProvider>
           </AuthProvider>
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );

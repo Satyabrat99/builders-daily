@@ -47,36 +47,10 @@ export default function UserDropdown({ onClose, onReachUs }) {
     }
   };
 
-  const avatarUrl = user?.user_metadata?.avatar_url ||
-    user?.user_metadata?.picture ||
-    user?.user_metadata?.avatar ||
-    user?.identities?.[0]?.identity_data?.avatar_url ||
-    user?.identities?.[0]?.identity_data?.picture ||
-    null;
-
-  const initial = user?.email?.charAt(0).toUpperCase() || 'U';
-
   return (
     <div style={styles.container}>
       <div style={styles.arrow}></div>
       <div style={styles.menu}>
-        {user?.email && (
-          <>
-            <div style={styles.userInfoHeader}>
-              <div style={styles.userMiniAvatar}>
-                {avatarUrl ? (
-                  <img src={avatarUrl} alt="" style={styles.userMiniAvatarImg} />
-                ) : (
-                  initial
-                )}
-              </div>
-              <div style={styles.userEmailText} title={user.email}>
-                {user.email}
-              </div>
-            </div>
-            <div style={styles.divider}></div>
-          </>
-        )}
         <div style={styles.item} onClick={handleWriteClick} className="user-dropdown-item">
           <Edit3 size={16} />
           <span>Write on Builders</span>
@@ -120,51 +94,16 @@ const styles = {
     border: '1px solid var(--borderDark)',
     borderRadius: '14px',
     boxShadow: 'var(--shadow-hover)',
-    width: '180px',
+    width: '165px',
     overflow: 'hidden',
     padding: '6px 0',
     backdropFilter: 'blur(16px)',
-  },
-  userInfoHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    padding: '8px 14px',
-  },
-  userMiniAvatar: {
-    width: '26px',
-    height: '26px',
-    borderRadius: '8px',
-    backgroundColor: 'var(--bgApp)',
-    border: '1px solid var(--borderDark)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '11px',
-    fontWeight: '700',
-    color: 'var(--textMain)',
-    overflow: 'hidden',
-    flexShrink: 0,
-  },
-  userMiniAvatarImg: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-    display: 'block',
-  },
-  userEmailText: {
-    fontSize: '12px',
-    fontWeight: '600',
-    color: 'var(--textMain)',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
   },
   item: {
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
-    padding: '9px 14px',
+    padding: '10px 16px',
     fontSize: '13px',
     fontWeight: '500',
     color: 'var(--textMain)',

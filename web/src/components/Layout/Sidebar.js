@@ -78,14 +78,23 @@ export default function Sidebar() {
   };
 
   const [imgError, setImgError] = useState(false);
-  const avatarUrl = !imgError ? (
+
+  const rawAvatarUrl = (
     user?.user_metadata?.avatar_url ||
     user?.user_metadata?.picture ||
     user?.user_metadata?.avatar ||
+    user?.identities?.find(i => i?.identity_data?.avatar_url || i?.identity_data?.picture)?.identity_data?.avatar_url ||
+    user?.identities?.find(i => i?.identity_data?.avatar_url || i?.identity_data?.picture)?.identity_data?.picture ||
     user?.identities?.[0]?.identity_data?.avatar_url ||
     user?.identities?.[0]?.identity_data?.picture ||
     null
-  ) : null;
+  );
+
+  useEffect(() => {
+    setImgError(false);
+  }, [user?.id, rawAvatarUrl]);
+
+  const avatarUrl = !imgError ? rawAvatarUrl : null;
 
   const initial = user?.email?.charAt(0).toUpperCase() || 'U';
 
@@ -164,6 +173,7 @@ export default function Sidebar() {
                       <img
                         src={avatarUrl}
                         alt={user.email || 'Profile'}
+                        referrerPolicy="no-referrer"
                         onError={() => setImgError(true)}
                         style={styles.avatarImg}
                       />
@@ -260,6 +270,7 @@ export default function Sidebar() {
               <img
                 src={avatarUrl}
                 alt={user.email || 'Profile'}
+                referrerPolicy="no-referrer"
                 onError={() => setImgError(true)}
                 style={styles.avatarImg}
               />

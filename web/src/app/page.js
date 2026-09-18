@@ -20,15 +20,15 @@ export default function Home() {
     trackEvent('view_dashboard');
   }, []);
 
-  if (authLoading) {
+  const isPreview = typeof window !== 'undefined' && window.location.search.includes('preview');
+
+  if (authLoading && !user && !isPreview) {
     return (
       <MainLayout>
         <DashboardSkeleton />
       </MainLayout>
     );
   }
-
-  const isPreview = typeof window !== 'undefined' && window.location.search.includes('preview');
 
   if (!user && !isPreview) {
     return (
@@ -43,7 +43,7 @@ export default function Home() {
       <div style={styles.content}>
         <Header reportDate={report?.report_date} issueNumber={report?.issueNumber} />
         
-        {loading ? (
+        {loading && !report ? (
           <DashboardSkeleton />
         ) : report ? (
           <DashboardFeedSlot contentJson={report.content_json} />

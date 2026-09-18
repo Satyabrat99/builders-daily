@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { theme } from '@/theme';
 
-import { supabase } from '@/lib/supabase';
+import { useSiteSettings } from '@/context/SiteSettingsContext';
 
 const DEFAULT_FONTS = [
   'Space Grotesk',
@@ -22,6 +22,7 @@ const PAUSE_END = 10000;
 const PAUSE_START = 500;
 
 export default function DynamicHeading() {
+  const { getSetting } = useSiteSettings();
   const [text1, setText1] = useState('');
   const [text2, setText2] = useState('');
   const [fontIndex, setFontIndex] = useState(0);
@@ -31,37 +32,34 @@ export default function DynamicHeading() {
   // Phase: 0 = typing line 1, 1 = typing line 2, 2 = paused, 3 = erasing line 2, 4 = erasing line 1, 5 = paused start
   const [phase, setPhase] = useState(5); 
 
-  // Fetch fonts from Supabase
+  // Read fonts from site settings
   useEffect(() => {
-    async function fetchFonts() {
-      const { data, error } = await supabase
-        .from('site_settings')
-        .select('value')
-        .eq('key', 'hero_fonts')
-        .single();
-        
-      if (!error && data && data.value) {
-        try {
-          const parsed = JSON.parse(data.value);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setActiveFonts(parsed);
-          }
-        } catch (e) {}
-      }
+    const val = getSetting('hero_fonts');
+    if (val) {
+      try {
+        const parsed = typeof val === 'string' ? JSON.parse(val) : val;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setActiveFonts(parsed);
+        }
+      } catch (e) {}
     }
-    fetchFonts();
-  }, []);
+  }, [getSetting]);
 
   // Dynamically inject Google Fonts link
   useEffect(() => {
-    // Clean up old dynamic font link if exists
-    const oldLink = document.getElementById('dynamic-hero-fonts');
-    if (oldLink) oldLink.remove();
-
     if (activeFonts.length > 0) {
       const families = activeFonts.map(f => `family=${f.replace(/ /g, '+')}`).join('&');
       const url = `https://fonts.googleapis.com/css2?${families}&display=swap`;
       
+      const existing = document.getElementById('dynamic-hero-fonts');
+      if (existing) {
+        if (existing.getAttribute('href') === url) {
+          setFontsLoaded(true);
+          return;
+        }
+        existing.remove();
+      }
+
       const link = document.createElement('link');
       link.id = 'dynamic-hero-fonts';
       link.rel = 'stylesheet';

@@ -1,6 +1,5 @@
 import { Space_Grotesk, Sora, JetBrains_Mono, Lora, Bebas_Neue, Caveat, DM_Sans } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/context/AuthContext";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const spaceGrotesk = Space_Grotesk({
@@ -65,37 +64,55 @@ export const metadata = {
   manifest: '/favicon-rounded/site.webmanifest',
 };
 
+import { unstable_cache } from 'next/cache';
 import { ThemeProvider } from "@/context/ThemeContext";
+import { AuthProvider } from "@/context/AuthContext";
+import { SiteSettingsProvider } from "@/context/SiteSettingsContext";
 import { BookmarkProvider } from "@/context/BookmarkContext";
 import { supabase } from "@/lib/supabase";
 
-async function getCustomAnalytics() {
-  try {
-    const { data } = await supabase
-      .from('site_settings')
-      .select('value')
-      .eq('key', 'custom_analytics_script')
-      .single();
-    return data?.value || '';
-  } catch (e) {
-    return '';
-  }
-}
+const getCachedAnalytics = unstable_cache(
+  async () => {
+    try {
+      const { data } = await supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', 'custom_analytics_script')
+        .single();
+      return data?.value || '';
+    } catch (e) {
+      return '';
+    }
+  },
+  ['custom_analytics_script'],
+  { revalidate: 600 }
+);
 
 export default async function RootLayout({ children }) {
-  const analyticsScript = await getCustomAnalytics();
+  let analyticsScript = '';
+  try {
+    analyticsScript = await getCachedAnalytics();
+  } catch (e) {
+    // Fallback safe
+  }
 
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${sora.variable} ${jetbrainsMono.variable} ${lora.variable} ${bebasNeue.variable} ${caveat.variable} ${dmSans.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body>
         {analyticsScript && (
           <div dangerouslySetInnerHTML={{ __html: analyticsScript }} style={{ display: 'none' }} />
         )}
         <ThemeProvider>
           <AuthProvider>
-            <BookmarkProvider>
-              {children}
-            </BookmarkProvider>
+            <SiteSettingsProvider>
+              <BookmarkProvider>
+                {children}
+              </BookmarkProvider>
+            </SiteSettingsProvider>
           </AuthProvider>
         </ThemeProvider>
         <SpeedInsights />
@@ -103,3 +120,4 @@ export default async function RootLayout({ children }) {
     </html>
   );
 }
+

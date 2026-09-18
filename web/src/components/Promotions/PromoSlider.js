@@ -4,69 +4,66 @@ import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { theme } from '@/theme';
 import { supabase } from '@/lib/supabase';
 import { formatExternalUrl } from '@/lib/urlUtils';
+import { useSiteSettings } from '@/context/SiteSettingsContext';
+
+const PROMOS_CACHE_KEY = 'builder_daily_promos_cache';
 
 export default function PromoSlider() {
+  const { getSetting } = useSiteSettings();
+  const visible = getSetting('promos_visible', 'true') !== 'false';
+
   const [activeSlide, setActiveSlide] = useState(0);
-  const [slides, setSlides] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [visible, setVisible] = useState(true);
+  const [slides, setSlides] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem(PROMOS_CACHE_KEY);
+        if (stored) return JSON.parse(stored);
+      } catch (e) {}
+    }
+    return [
+      { id: 'p1', image_url: '/promo_1.png', target_url: '' },
+      { id: 'p2', image_url: '/promo_2.png', target_url: '' },
+      { id: 'p3', image_url: '/promo_3.png', target_url: '' }
+    ];
+  });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (!visible) return;
+
     async function fetchPromos() {
-      // Check visibility first
-      const { data: setting, error: settingError } = await supabase
-        .from('site_settings')
-        .select('value')
-        .eq('key', 'promos_visible')
-        .single();
-
-      if (!settingError && setting && setting.value === 'false') {
-        setVisible(false);
-        setLoading(false);
-        return;
-      }
-
-      setVisible(true);
-
-      const { data, error } = await supabase
-        .from('promotions')
-        .select('*')
-        .eq('is_active', true)
-        .order('order_index', { ascending: true });
-
-      // Merge two-tier fallback from site_settings (promo_target_urls)
       let targetUrlsMap = {};
       try {
-        const { data: targetSetting } = await supabase
-          .from('site_settings')
-          .select('value')
-          .eq('key', 'promo_target_urls')
-          .single();
-        if (targetSetting && targetSetting.value) {
-          targetUrlsMap = JSON.parse(targetSetting.value);
+        const targetSettingVal = getSetting('promo_target_urls', '{}');
+        if (targetSettingVal) {
+          targetUrlsMap = typeof targetSettingVal === 'string' ? JSON.parse(targetSettingVal) : targetSettingVal;
         }
-      } catch {
-        // Ignore
-      }
+      } catch {}
 
-      if (!error && data && data.length > 0) {
-        setSlides(data.map(d => ({
-          id: d.id,
-          image_url: d.image_url,
-          target_url: d.target_url || d.link_url || targetUrlsMap[d.id] || ''
-        })));
-      } else {
-        // Fallback to defaults if table is empty or error
-        setSlides([
-          { id: 'p1', image_url: '/promo_1.png', target_url: '' },
-          { id: 'p2', image_url: '/promo_2.png', target_url: '' },
-          { id: 'p3', image_url: '/promo_3.png', target_url: '' }
-        ]);
+      try {
+        const { data, error } = await supabase
+          .from('promotions')
+          .select('*')
+          .eq('is_active', true)
+          .order('order_index', { ascending: true });
+
+        if (!error && data && data.length > 0) {
+          const mapped = data.map(d => ({
+            id: d.id,
+            image_url: d.image_url,
+            target_url: d.target_url || d.link_url || targetUrlsMap[d.id] || ''
+          }));
+          setSlides(mapped);
+          try {
+            localStorage.setItem(PROMOS_CACHE_KEY, JSON.stringify(mapped));
+          } catch (e) {}
+        }
+      } catch (err) {
+        console.warn('Error fetching promotions:', err);
       }
-      setLoading(false);
     }
     fetchPromos();
-  }, []);
+  }, [visible, getSetting]);
 
   useEffect(() => {
     if (slides.length <= 1) return;

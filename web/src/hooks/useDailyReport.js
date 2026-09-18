@@ -1,39 +1,47 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 
+const CACHE_KEY = 'builder_daily_report_cache';
+const TS_KEY = 'builder_daily_report_ts';
+
 export function useDailyReport(user, authLoading) {
-  const [report, setReport] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const isPreview = typeof window !== 'undefined' && window.location.search.includes('preview');
-    if (!authLoading && (user || isPreview)) {
-      fetchLatestReport();
+  // 1. Synchronously initialize from localStorage for 0ms initial render
+  const [report, setReport] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem(CACHE_KEY);
+        if (stored) return JSON.parse(stored);
+      } catch (e) {
+        console.warn("Cache read failed:", e);
+      }
     }
-  }, [user, authLoading]);
+    return null;
+  });
 
-  const fetchLatestReport = async () => {
-    const CACHE_KEY = 'builder_daily_report_cache';
-    const TS_KEY = 'builder_daily_report_ts';
+  const [loading, setLoading] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem(CACHE_KEY);
+        if (stored) return false;
+      } catch (e) {}
+    }
+    return true;
+  });
 
-    // 1. Try to load from cache first for instant UI
+  const fetchLatestReport = useCallback(async () => {
     let cachedReport = null;
     try {
       const stored = localStorage.getItem(CACHE_KEY);
-      const storedTs = localStorage.getItem(TS_KEY);
-      const now = Date.now();
-
       if (stored) {
         cachedReport = JSON.parse(stored);
-        setReport(cachedReport);
       }
-    } catch (e) {
-      console.warn("Cache read failed:", e);
-    }
+    } catch (e) {}
 
-    // 2. Background Revalidation (or Initial Load)
-    if (!cachedReport) setLoading(true);
+    // Only set loading to true if we have no cached data to display
+    if (!cachedReport) {
+      setLoading(true);
+    }
 
     try {
       const { data, error } = await supabase
@@ -66,6 +74,8 @@ export function useDailyReport(user, authLoading) {
           } catch (e) {
             console.warn("Cache write failed:", e);
           }
+        } else if (cachedReport) {
+          setReport(cachedReport);
         }
       }
     } catch (err) {
@@ -73,7 +83,13 @@ export function useDailyReport(user, authLoading) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    // Start fetching immediately without waiting for auth session check
+    fetchLatestReport();
+  }, [fetchLatestReport]);
 
   return { report, loading, refresh: fetchLatestReport };
 }
+

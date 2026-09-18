@@ -3,23 +3,12 @@ import { useState, useEffect } from 'react';
 import { Triangle, Flame, ExternalLink, ArrowUpRight } from 'lucide-react';
 import { theme } from '@/theme';
 import Tilt from 'react-parallax-tilt';
-import { supabase } from '@/lib/supabase';
 import { ProductHuntIcon } from '@/components/ui/SectionIcons';
+import { useSiteSettings } from '@/context/SiteSettingsContext';
 
 export default function ProductHuntPicks({ items }) {
-  const [bgImage, setBgImage] = useState('/spot-2.webp');
-
-  useEffect(() => {
-    async function loadBg() {
-      const { data } = await supabase
-        .from('site_settings')
-        .select('value')
-        .eq('key', 'spotlight_bg_image')
-        .single();
-      if (data && data.value) setBgImage(data.value);
-    }
-    loadBg();
-  }, []);
+  const { getSetting } = useSiteSettings();
+  const bgImage = getSetting('spotlight_bg_image', '/spot-2.webp');
   if (!items || items.length === 0) return null;
 
   const spotlightTool = items[0] ? {

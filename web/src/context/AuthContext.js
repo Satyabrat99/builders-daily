@@ -14,16 +14,63 @@ const AuthContext = createContext({
   loginWithOAuth: async (provider) => {},
 });
 
+const USER_CACHE_KEY = 'builder_daily_cached_user';
+const WRITER_CACHE_KEY = 'builder_daily_cached_writer';
+
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isWriter, setIsWriter] = useState(false);
+  const [user, setUser] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem(USER_CACHE_KEY);
+        if (stored) return JSON.parse(stored);
+      } catch (e) {}
+    }
+    return null;
+  });
+
+  const [loading, setLoading] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem(USER_CACHE_KEY);
+        if (stored) return false;
+      } catch (e) {}
+    }
+    return true;
+  });
+
+  const [isAdmin, setIsAdmin] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem(USER_CACHE_KEY);
+        if (stored) {
+          const u = JSON.parse(stored);
+          return u?.email === 'admin@test.com';
+        }
+      } catch (e) {}
+    }
+    return false;
+  });
+
+  const [isWriter, setIsWriter] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const storedWriter = localStorage.getItem(WRITER_CACHE_KEY);
+        if (storedWriter !== null) return storedWriter === 'true';
+        const stored = localStorage.getItem(USER_CACHE_KEY);
+        if (stored) {
+          const u = JSON.parse(stored);
+          return u?.email === 'admin@test.com';
+        }
+      } catch (e) {}
+    }
+    return false;
+  });
 
   const checkUserRole = async (currentUser) => {
     if (!currentUser) {
       setIsAdmin(false);
       setIsWriter(false);
+      try { localStorage.removeItem(WRITER_CACHE_KEY); } catch (e) {}
       return;
     }
 
@@ -32,6 +79,7 @@ export const AuthProvider = ({ children }) => {
 
     if (isUserAdmin) {
       setIsWriter(true);
+      try { localStorage.setItem(WRITER_CACHE_KEY, 'true'); } catch (e) {}
       return;
     }
 
@@ -46,6 +94,7 @@ export const AuthProvider = ({ children }) => {
         const allowedList = JSON.parse(data.value || '[]');
         if (Array.isArray(allowedList) && allowedList.includes(currentUser.id)) {
           setIsWriter(true);
+          try { localStorage.setItem(WRITER_CACHE_KEY, 'true'); } catch (e) {}
           return;
         }
       }
@@ -54,6 +103,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     setIsWriter(false);
+    try { localStorage.setItem(WRITER_CACHE_KEY, 'false'); } catch (e) {}
   };
 
   useEffect(() => {
@@ -66,10 +116,19 @@ export const AuthProvider = ({ children }) => {
         }
         const currentUser = session?.user ?? null;
         setUser(currentUser);
-        await checkUserRole(currentUser);
+        if (currentUser) {
+          try { localStorage.setItem(USER_CACHE_KEY, JSON.stringify(currentUser)); } catch (e) {}
+        } else {
+          try {
+            localStorage.removeItem(USER_CACHE_KEY);
+            localStorage.removeItem(WRITER_CACHE_KEY);
+          } catch (e) {}
+        }
+        // Resolve loading immediately without waiting for DB role check
+        setLoading(false);
+        checkUserRole(currentUser);
       } catch (err) {
         console.error("Auth getSession failed:", err);
-      } finally {
         setLoading(false);
       }
     };
@@ -80,8 +139,16 @@ export const AuthProvider = ({ children }) => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       const currentUser = session?.user ?? null;
       setUser(currentUser);
-      await checkUserRole(currentUser);
+      if (currentUser) {
+        try { localStorage.setItem(USER_CACHE_KEY, JSON.stringify(currentUser)); } catch (e) {}
+      } else {
+        try {
+          localStorage.removeItem(USER_CACHE_KEY);
+          localStorage.removeItem(WRITER_CACHE_KEY);
+        } catch (e) {}
+      }
       setLoading(false);
+      checkUserRole(currentUser);
     });
 
     return () => {
@@ -102,6 +169,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
+    try {
+      localStorage.removeItem(USER_CACHE_KEY);
+      localStorage.removeItem(WRITER_CACHE_KEY);
+    } catch (e) {}
     setLoading(true);
     const { error } = await supabase.auth.signOut();
     if (error) {

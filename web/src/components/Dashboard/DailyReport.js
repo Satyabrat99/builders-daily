@@ -1,30 +1,17 @@
 "use client";
-import { useState, useEffect } from 'react';
 import ContentCard from './ContentCard';
 import { theme } from '@/theme';
-import { supabase } from '@/lib/supabase';
+import { useSiteSettings } from '@/context/SiteSettingsContext';
 
 export default function DailyReport({ data }) {
-  const [bgs, setBgs] = useState({ model: '', tool: '', repo: '', paper: '' });
+  const { getSetting } = useSiteSettings();
 
-  useEffect(() => {
-    const fetchBgs = async () => {
-      const { data } = await supabase
-        .from('site_settings')
-        .select('key, value')
-        .in('key', ['card_bg_model', 'card_bg_tool', 'card_bg_repo', 'card_bg_paper']);
-
-      if (data) {
-        const fetchedBgs = { ...bgs };
-        data.forEach(item => {
-          const type = item.key.replace('card_bg_', '');
-          fetchedBgs[type] = item.value;
-        });
-        setBgs(fetchedBgs);
-      }
-    };
-    fetchBgs();
-  }, []);
+  const bgs = {
+    model: getSetting('card_bg_model', ''),
+    tool: getSetting('card_bg_tool', ''),
+    repo: getSetting('card_bg_repo', ''),
+    paper: getSetting('card_bg_paper', ''),
+  };
 
   if (!data) return null;
 

@@ -45,8 +45,19 @@ export function ThemeProvider({ children }) {
     window.addEventListener('builder_toggle_style_change', handleStyleChange);
     window.addEventListener('storage', handleStorage);
 
-    // 4. Fetch latest from database
+    // 4. Check cached site settings first before querying database
     const fetchGlobalToggleStyle = async () => {
+      try {
+        const cachedSettings = localStorage.getItem('builder_daily_site_settings');
+        if (cachedSettings) {
+          const parsed = JSON.parse(cachedSettings);
+          if (parsed.theme_toggle_style) {
+            setToggleStyle(parsed.theme_toggle_style);
+            return;
+          }
+        }
+      } catch (e) {}
+
       const { data, error } = await supabase
         .from('site_settings')
         .select('value')

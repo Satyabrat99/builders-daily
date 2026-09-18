@@ -1,15 +1,31 @@
-name: Daily AI Pipeline
+﻿name: Daily Pipeline
 
 on:
+  # Run every day at 5:30 AM IST (00:00 UTC)
   schedule:
-    - cron: '0 0 * * *' # Run at midnight UTC daily
-  workflow_dispatch: # Allow manual trigger
+    - cron: '0 0 * * *'
+
+  # Also allow manual trigger from GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      step:
+        description: 'Which step to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - pipeline-only
+          - report-only
 
 jobs:
   run-pipeline:
+    name: Scrape all sources
     runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.step != 'report-only' }}
+
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -17,22 +33,60 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: 'backend/package-lock.json'
+          cache-dependency-path: backend/package.json
 
       - name: Install backend dependencies
-        run: |
-          cd backend && npm install
+        run: npm install
+        working-directory: backend
 
-      - name: Run Data Pipeline
+      - name: Run ingestion pipeline (all sources)
+        run: node pipeline.js
+        working-directory: backend
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           PRODUCTHUNT_API_KEY: ${{ secrets.PRODUCTHUNT_API_KEY }}
-        run: node backend/pipeline.js
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          SCRAPINGANT_API_KEY: ${{ secrets.SCRAPINGANT_API_KEY }}
+          SCRAPINGANT_API_KEYS: ${{ secrets.SCRAPINGANT_API_KEYS }}
 
-      - name: Generate AI Report
+  generate-report:
+    name: Generate AI report
+    runs-on: ubuntu-latest
+    needs: run-pipeline
+    if: |
+      always() &&
+      (needs.run-pipeline.result == 'success' || github.event.inputs.step == 'report-only')
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: backend/package.json
+
+      - name: Install backend dependencies
+        run: npm install
+        working-directory: backend
+
+      - name: Generate daily report
+        run: node generate_report.js
+        working-directory: backend
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
-        run: node backend/generate_report.js
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}

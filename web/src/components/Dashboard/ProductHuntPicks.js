@@ -87,13 +87,13 @@ export default function ProductHuntPicks({ items }) {
         {/* Left Column: Spotlight Card */}
         <div style={styles.spotlightColumn}>
           {spotlightTool.url ? (
-            <a href={spotlightTool.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', width: '100%', maxWidth: '100%', color: 'inherit', boxSizing: 'border-box' }}>
-              <Tilt glareEnable={true} glareMaxOpacity={0.25} glareColor="#ffffff" glarePosition="all" glareBorderRadius={theme.radius.lg} scale={1.01} transitionSpeed={2000} tiltMaxAngleX={4} tiltMaxAngleY={4} style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
+            <a href={spotlightTool.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', width: '100%', maxWidth: '100%', color: 'inherit', boxSizing: 'border-box', overflow: 'visible' }}>
+              <Tilt glareEnable={false} scale={1.01} transitionSpeed={2000} tiltMaxAngleX={4} tiltMaxAngleY={4} style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box', overflow: 'visible' }}>
                 <SpotlightInnerContent />
               </Tilt>
             </a>
           ) : (
-            <Tilt glareEnable={true} glareMaxOpacity={0.25} glareColor="#ffffff" glarePosition="all" glareBorderRadius={theme.radius.lg} scale={1.01} transitionSpeed={2000} tiltMaxAngleX={4} tiltMaxAngleY={4} style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
+            <Tilt glareEnable={false} scale={1.01} transitionSpeed={2000} tiltMaxAngleX={4} tiltMaxAngleY={4} style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box', overflow: 'visible' }}>
               <SpotlightInnerContent />
             </Tilt>
           )}
@@ -154,6 +154,7 @@ const styles = {
     width: '100%',
     maxWidth: '100%',
     boxSizing: 'border-box',
+    overflow: 'visible',
     padding: 'var(--ph-container-padding, 40px 0 60px 0)',
   },
   header: {
@@ -197,12 +198,14 @@ const styles = {
     alignItems: 'start',
     width: '100%',
     maxWidth: '100%',
+    overflow: 'visible',
     boxSizing: 'border-box',
   },
   spotlightColumn: {
     width: '100%',
     maxWidth: '100%',
     minWidth: 0,
+    overflow: 'visible',
     boxSizing: 'border-box',
   },
   spotlightCard: {

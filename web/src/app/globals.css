@@ -72,6 +72,22 @@ a {
 }
 
 /* Spotlight Card overrides */
+.spotlight-card {
+  transform: none !important;
+}
+
+.spotlight-card:hover {
+  transform: none !important;
+}
+
+.react-parallax-tilt {
+  overflow: visible !important;
+}
+
+.react-parallax-tilt .glare-wrapper {
+  overflow: visible !important;
+}
+
 .spotlight-card:hover h3 {
   color: var(--textMain) !important;
 }

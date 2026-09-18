@@ -76,8 +76,11 @@ const styles = {
     maxWidth: '1200px',
     margin: '0 auto',
     width: '100%',
+    minWidth: 0,
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    boxSizing: 'border-box',
+    overflowX: 'hidden',
   },
   stateContainer: {
     padding: '100px 20px',

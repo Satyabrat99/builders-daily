@@ -19,6 +19,9 @@ const styles = {
     display: 'flex',
     minHeight: '100vh',
     width: '100%',
+    maxWidth: '100vw',
+    overflowX: 'hidden',
+    boxSizing: 'border-box',
   },
   contentArea: {
     marginLeft: 'var(--content-margin-left, 90px)',
@@ -27,5 +30,9 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     minWidth: 0,
+    width: '100%',
+    maxWidth: '100%',
+    boxSizing: 'border-box',
+    overflowX: 'hidden',
   }
 };

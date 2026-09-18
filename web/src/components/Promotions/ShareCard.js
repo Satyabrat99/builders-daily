@@ -55,7 +55,9 @@ export default function ShareCard() {
 
           {/* Column 3: Stats */}
           <div style={styles.columnRight}>
-            <span style={styles.labelSmall}>DAILY CURATION</span>
+            <div style={styles.statsHeader}>
+              <span style={styles.labelSmall}>DAILY CURATION</span>
+            </div>
             <div style={styles.statsArea}>
               <div style={styles.statsValue}>500+</div>
               <span style={styles.statsSub}>Models, repos &amp; tools analyzed daily</span>
@@ -67,11 +69,12 @@ export default function ShareCard() {
       <style jsx>{`
         .card {
           width: 100%;
+          box-sizing: border-box;
           background: radial-gradient(circle at 5% 50%, rgba(154, 52, 18, 0.6) 0%, rgba(9, 9, 11, 0) 70%) padding-box,
                       linear-gradient(90deg, #18181b 0%, #121215 45%, #050507 75%, #000000 100%) padding-box,
                       linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0.04) 100%) border-box;
           background-color: #000000;
-          border-radius: 32px;
+          border-radius: var(--sharecard-border-radius, 32px);
           padding: var(--sharecard-padding, 48px 60px);
           position: relative;
           overflow: hidden;
@@ -105,70 +108,77 @@ const styles = {
     width: '100%',
     maxWidth: '1210px',
     margin: 'var(--sharecard-container-margin, 40px auto 100px)',
-    padding: '0 20px',
+    padding: 'var(--sharecard-container-padding, 0 20px)',
+    boxSizing: 'border-box',
   },
   content: {
     display: 'flex',
     flexDirection: 'var(--sharecard-flex-direction, row)',
-    alignItems: 'center',
+    alignItems: 'var(--sharecard-align-items, center)',
     justifyContent: 'space-between',
     gap: 'var(--sharecard-gap, 20px)',
     position: 'relative',
     zIndex: 3,
+    width: '100%',
+    boxSizing: 'border-box',
   },
   columnLeft: {
-    flex: '1 1 40%',
+    flex: 'var(--sharecard-col1-flex, 1 1 40%)',
     display: 'flex',
-    gap: '24px',
+    gap: 'var(--sharecard-col1-gap, 24px)',
     alignItems: 'flex-start',
     width: '100%',
+    boxSizing: 'border-box',
   },
   iconBox: {
-    width: '56px',
-    height: '56px',
-    minWidth: '56px',
+    width: 'var(--sharecard-icon-size, 56px)',
+    height: 'var(--sharecard-icon-size, 56px)',
+    minWidth: 'var(--sharecard-icon-size, 56px)',
     backgroundColor: 'rgba(249, 115, 22, 0.08)',
     borderRadius: '16px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     border: '1px solid rgba(249, 115, 22, 0.18)',
+    flexShrink: 0,
   },
   textGroup: {
     display: 'flex',
     flexDirection: 'column',
     gap: '8px',
     flex: 1,
+    minWidth: 0,
   },
   labelSmall: {
     fontSize: '11px',
     fontWeight: '700',
     letterSpacing: '1.5px',
-    color: '#d4d4d8',
-    opacity: 0.6,
+    color: '#f97316',
+    opacity: 0.9,
     fontFamily: 'var(--font-body)',
   },
   heading: {
     fontSize: 'var(--sharecard-heading-font-size, 30px)',
-    fontWeight: '500',
+    fontWeight: '600',
     color: '#fff',
-    lineHeight: '1.2',
+    lineHeight: '1.25',
     margin: 0,
     fontFamily: 'var(--font-heading)',
-    maxWidth: '320px',
+    maxWidth: 'var(--sharecard-heading-max-width, 320px)',
   },
   columnMiddle: {
-    flex: '1 1 40%',
+    flex: 'var(--sharecard-col2-flex, 1 1 40%)',
     display: 'flex',
     flexDirection: 'column',
-    gap: '20px',
+    gap: 'var(--sharecard-col2-gap, 20px)',
     width: '100%',
+    boxSizing: 'border-box',
   },
   description: {
-    fontSize: '15px',
+    fontSize: 'var(--sharecard-desc-font-size, 15px)',
     lineHeight: '1.6',
     color: '#a1a1aa',
-    maxWidth: '400px',
+    maxWidth: 'var(--sharecard-desc-max-width, 400px)',
     margin: 0,
     fontFamily: 'var(--font-body)',
   },
@@ -176,21 +186,23 @@ const styles = {
     display: 'flex',
     flexDirection: 'var(--sharecard-action-direction, row)',
     alignItems: 'center',
-    gap: '12px',
-    border: 'var(--sharecard-action-border, 1px solid rgba(255, 255, 255, 0.08))',
-    borderRadius: 'var(--sharecard-action-radius, 14px)',
+    gap: '10px',
+    border: '1px solid rgba(255, 255, 255, 0.08)',
+    borderRadius: '14px',
     padding: 'var(--sharecard-action-padding, 4px)',
     backgroundColor: 'rgba(255, 255, 255, 0.03)',
     backdropFilter: 'blur(10px)',
     width: '100%',
+    boxSizing: 'border-box',
   },
   urlBox: {
     padding: 'var(--sharecard-url-padding, 0 16px)',
-    fontSize: '13px',
+    fontSize: 'var(--sharecard-url-size, 13px)',
     color: '#e4e4e7',
     flex: 1,
-    fontFamily: 'monospace',
-    opacity: 0.8,
+    minWidth: 0,
+    fontFamily: 'var(--font-jetbrains, monospace)',
+    opacity: 0.9,
     textAlign: 'var(--sharecard-url-align, left)',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
@@ -204,18 +216,20 @@ const styles = {
     backgroundColor: '#f97316',
     color: '#fff',
     border: 'none',
-    padding: '10px 20px',
-    borderRadius: 'var(--sharecard-btn-radius, 10px)',
-    fontSize: '14px',
+    padding: 'var(--sharecard-btn-padding, 10px 20px)',
+    borderRadius: '10px',
+    fontSize: 'var(--sharecard-btn-font-size, 14px)',
     fontWeight: '600',
     cursor: 'pointer',
     transition: 'opacity 0.2s ease',
     fontFamily: 'var(--font-body)',
     width: 'var(--sharecard-btn-width, auto)',
-    boxShadow: '0 2px 8px rgba(249, 115, 22, 0.08)',
+    boxShadow: '0 2px 10px rgba(249, 115, 22, 0.25)',
+    whiteSpace: 'nowrap',
+    flexShrink: 0,
   },
   columnRight: {
-    flex: '1 1 20%',
+    flex: 'var(--sharecard-col3-flex, 1 1 20%)',
     display: 'flex',
     flexDirection: 'var(--sharecard-right-flex-direction, column)',
     alignItems: 'var(--sharecard-right-align, flex-start)',
@@ -224,15 +238,23 @@ const styles = {
     padding: 'var(--sharecard-right-padding, 0px)',
     backgroundColor: 'var(--sharecard-right-bg, transparent)',
     border: 'var(--sharecard-right-border, none)',
-    borderRadius: '16px',
+    borderRadius: 'var(--sharecard-right-radius, 16px)',
     width: '100%',
     boxSizing: 'border-box',
+  },
+  statsHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
   },
   statsArea: {
     display: 'flex',
     flexDirection: 'var(--sharecard-stats-area-direction, column)',
     gap: 'var(--sharecard-stats-area-gap, 4px)',
     alignItems: 'var(--sharecard-stats-area-align, flex-start)',
+    width: '100%',
+    minWidth: 0,
   },
   statsValue: {
     fontSize: 'var(--sharecard-stats-value-size, 52px)',
@@ -242,11 +264,14 @@ const styles = {
     fontFamily: 'var(--font-heading)',
     letterSpacing: '-0.02em',
     whiteSpace: 'nowrap',
+    flexShrink: 0,
   },
   statsSub: {
-    fontSize: '14px',
+    fontSize: 'var(--sharecard-stats-sub-size, 14px)',
     color: '#d4d4d8',
-    opacity: 0.8,
+    opacity: 0.85,
     fontFamily: 'var(--font-body)',
+    lineHeight: '1.45',
+    flex: 'var(--sharecard-stats-sub-flex, initial)',
   }
 };

@@ -626,6 +626,8 @@
   border: none;
   background: transparent;
   box-shadow: none;
+  display: flex;
+  flex-direction: column;
 }
 
 [data-theme='light'] .footerBox {
@@ -641,14 +643,14 @@
 }
 
 .footerHeader {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .footerKickerRow {
   display: flex;
   align-items: center;
   gap: 7px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .footerKickerDot {
@@ -660,18 +662,18 @@
 
 .footerKicker {
   font-family: var(--font-heading, system-ui, sans-serif);
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--primary, #ff5a12);
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .footerTitle {
   font-family: var(--font-heading, system-ui, sans-serif);
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.02em;
   color: var(--textMain);
@@ -839,10 +841,27 @@
   padding: 0;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+  .footerBox {
+    width: 100%;
+    max-width: 100%;
+    gap: 0;
+  }
+
+  .footerHeader {
+    max-width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .footerForm {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .footerInputGroup {
     flex-direction: column;
     align-items: stretch;
+    gap: 8px;
   }
 
   .footerSubmitBtn {

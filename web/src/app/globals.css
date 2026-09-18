@@ -10,6 +10,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 
@@ -279,6 +281,9 @@ a {
     --slider-slide-flex: 0 0 50%; /* 2 cards on tablet */
     --hn-grid-cols: repeat(2, 1fr);
     --hn-grid-rows: repeat(3, auto);
+    --ph-grid-cols: 1fr;
+    --ph-spotlight-padding: 32px;
+    --ph-spotlight-min-height: 380px;
     --section-title-font-size: 28px;
     --sharecard-heading-font-size: 26px;
   }
@@ -322,7 +327,7 @@ a {
     --hn-grid-cols: 1fr;
     --hn-grid-rows: auto;
 
-    --ph-grid-cols: 1fr;
+    --ph-grid-cols: minmax(0, 1fr);
     --promo-height: 180px;
     --section-title-font-size: 22px;
     --slider-header-padding-horizontal: 8px;
@@ -330,40 +335,63 @@ a {
     --slider-track-padding-horizontal: 0px;
     --grid-header-padding-horizontal: 0px;
     --hn-grid-gap: 16px;
-    --ph-spotlight-padding: 24px;
-    --ph-spotlight-min-height: 320px;
-    --ph-spotlight-title-size: 24px;
-    --ph-spotlight-desc-size: 14px;
-    --ph-spotlight-logo-size: 64px;
-    --ph-spotlight-header-margin: 16px;
-    --ph-spotlight-footer-margin: 20px;
+    --ph-container-padding: 24px 0 16px 0;
+    --ph-header-margin-bottom: 20px;
+    --ph-spotlight-padding: 20px;
+    --ph-spotlight-min-height: 280px;
+    --ph-spotlight-title-size: 22px;
+    --ph-spotlight-desc-size: 13.5px;
+    --ph-spotlight-logo-size: 56px;
+    --ph-spotlight-header-margin: 14px;
+    --ph-spotlight-footer-margin: 18px;
     --dualfeed-container-padding: 24px 0 32px 0;
 
+    --sharecard-container-padding: 0px;
+    --sharecard-container-margin: 20px auto 36px;
     --sharecard-flex-direction: column;
-    --sharecard-gap: 24px;
-    --sharecard-padding: 28px 20px;
+    --sharecard-align-items: stretch;
+    --sharecard-gap: 20px;
+    --sharecard-padding: 24px 18px;
     --sharecard-divider-width: 100%;
     --sharecard-divider-height: 1px;
     --sharecard-divider-border-left: none;
     --sharecard-divider-border-top: 1px solid rgba(255, 255, 255, 0.08);
-    --sharecard-divider-margin: 8px 0;
-    --sharecard-action-padding: 4px 4px 4px 12px;
-    --sharecard-heading-font-size: 22px;
-    --sharecard-heading-max-width: 100%;
-    --sharecard-container-margin: 20px auto 40px;
+    --sharecard-divider-margin: 4px 0;
     
-    --sharecard-right-padding: 16px 20px;
-    --sharecard-right-bg: rgba(255, 255, 255, 0.02);
-    --sharecard-right-border: 1px solid rgba(255, 255, 255, 0.06);
-    --sharecard-right-flex-direction: row;
-    --sharecard-right-align: center;
-    --sharecard-right-justify: space-between;
-    --sharecard-right-gap: 16px;
+    --sharecard-col1-flex: 1 1 100%;
+    --sharecard-col1-gap: 16px;
+    --sharecard-icon-size: 46px;
+    --sharecard-heading-font-size: 21px;
+    --sharecard-heading-max-width: 100%;
+    
+    --sharecard-col2-flex: 1 1 100%;
+    --sharecard-col2-gap: 14px;
+    --sharecard-desc-font-size: 13.5px;
+    --sharecard-desc-max-width: 100%;
+    --sharecard-action-padding: 4px 4px 4px 12px;
+    --sharecard-btn-padding: 9px 16px;
+    --sharecard-btn-font-size: 13px;
+    --sharecard-url-size: 13px;
+    
+    --sharecard-col3-flex: 1 1 100%;
+    --sharecard-right-padding: 14px 16px;
+    --sharecard-right-bg: rgba(255, 255, 255, 0.03);
+    --sharecard-right-border: 1px solid rgba(255, 255, 255, 0.07);
+    --sharecard-right-radius: 16px;
+    --sharecard-right-flex-direction: column;
+    --sharecard-right-align: flex-start;
+    --sharecard-right-justify: flex-start;
+    --sharecard-right-gap: 8px;
     
     --sharecard-stats-area-direction: row;
-    --sharecard-stats-area-gap: 8px;
+    --sharecard-stats-area-gap: 14px;
     --sharecard-stats-area-align: center;
-    --sharecard-stats-value-size: 36px;
+    --sharecard-stats-value-size: 34px;
+    --sharecard-stats-sub-size: 12.5px;
+    --sharecard-stats-sub-flex: 1;
+  }
+  .desktop-sidebar {
+    display: none !important;
   }
   .header-right {
     display: none !important;

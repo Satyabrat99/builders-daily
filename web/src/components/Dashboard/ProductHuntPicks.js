@@ -60,7 +60,7 @@ export default function ProductHuntPicks({ items }) {
             <Flame size={12} color={theme.colors.primary} />
             <span>SPOTLIGHT</span>
           </div>
-          <button style={styles.visitBtnSmall} className="click-effect visit-btn-small">
+          <button style={styles.visitBtnSmall} className="click-effect visit-btn-small" aria-label="Visit project">
             <ArrowUpRight size={18} strokeWidth={2.5} />
           </button>
         </div>
@@ -98,13 +98,13 @@ export default function ProductHuntPicks({ items }) {
         {/* Left Column: Spotlight Card */}
         <div style={styles.spotlightColumn}>
           {spotlightTool.url ? (
-            <a href={spotlightTool.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', height: '100%', color: 'inherit' }}>
-              <Tilt glareEnable={true} glareMaxOpacity={0.25} glareColor="#ffffff" glarePosition="all" glareBorderRadius={theme.radius.lg} scale={1.01} transitionSpeed={2000} tiltMaxAngleX={4} tiltMaxAngleY={4} style={{ height: '100%' }}>
+            <a href={spotlightTool.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', width: '100%', maxWidth: '100%', height: '100%', color: 'inherit', boxSizing: 'border-box' }}>
+              <Tilt glareEnable={true} glareMaxOpacity={0.25} glareColor="#ffffff" glarePosition="all" glareBorderRadius={theme.radius.lg} scale={1.01} transitionSpeed={2000} tiltMaxAngleX={4} tiltMaxAngleY={4} style={{ width: '100%', maxWidth: '100%', height: '100%', boxSizing: 'border-box' }}>
                 <SpotlightInnerContent />
               </Tilt>
             </a>
           ) : (
-            <Tilt glareEnable={true} glareMaxOpacity={0.25} glareColor="#ffffff" glarePosition="all" glareBorderRadius={theme.radius.lg} scale={1.01} transitionSpeed={2000} tiltMaxAngleX={4} tiltMaxAngleY={4} style={{ height: '100%' }}>
+            <Tilt glareEnable={true} glareMaxOpacity={0.25} glareColor="#ffffff" glarePosition="all" glareBorderRadius={theme.radius.lg} scale={1.01} transitionSpeed={2000} tiltMaxAngleX={4} tiltMaxAngleY={4} style={{ width: '100%', maxWidth: '100%', height: '100%', boxSizing: 'border-box' }}>
               <SpotlightInnerContent />
             </Tilt>
           )}
@@ -118,7 +118,7 @@ export default function ProductHuntPicks({ items }) {
           <div style={styles.list}>
             {trendingTools.map((tool, i) => (
               tool.url ? (
-                <a key={i} href={tool.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <a key={i} href={tool.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
                   <div style={styles.listItem} className="premium-card">
                     <div style={styles.itemInfo}>
                       <div style={styles.itemThumb}>
@@ -163,19 +163,24 @@ export default function ProductHuntPicks({ items }) {
 const styles = {
   container: {
     width: '100%',
-    padding: '40px 0 20px 0',
+    maxWidth: '100%',
+    boxSizing: 'border-box',
+    padding: 'var(--ph-container-padding, 40px 0 20px 0)',
+    overflow: 'hidden',
   },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '32px',
-    padding: '0 var(--grid-header-padding-horizontal, 0px)'
+    marginBottom: 'var(--ph-header-margin-bottom, 32px)',
+    padding: '0 var(--grid-header-padding-horizontal, 0px)',
+    width: '100%',
+    boxSizing: 'border-box',
   },
   titleArea: {
     display: 'flex',
     alignItems: 'center',
-    gap: '16px',
+    gap: '14px',
   },
   phIcon: {
     width: '32px',
@@ -201,10 +206,16 @@ const styles = {
     display: 'grid',
     gridTemplateColumns: 'var(--ph-grid-cols, 62% 38%)',
     gap: 'var(--hn-grid-gap, 24px)',
-    alignItems: 'start'
+    alignItems: 'start',
+    width: '100%',
+    maxWidth: '100%',
+    boxSizing: 'border-box',
   },
   spotlightColumn: {
-    width: '100%'
+    width: '100%',
+    maxWidth: '100%',
+    minWidth: 0,
+    boxSizing: 'border-box',
   },
   spotlightCard: {
     backgroundColor: theme.colors.bgApp,
@@ -224,6 +235,9 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'flex-start',
     textAlign: 'left',
+    width: '100%',
+    maxWidth: '100%',
+    boxSizing: 'border-box',
     height: '100%',
     minHeight: 'var(--ph-spotlight-min-height, 440px)',
     position: 'relative',
@@ -236,13 +250,17 @@ const styles = {
     flexDirection: 'column',
     height: '100%',
     width: '100%',
+    maxWidth: '100%',
+    boxSizing: 'border-box',
+    minWidth: 0,
   },
   spotlightHeader: {
     width: '100%',
+    boxSizing: 'border-box',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 'var(--ph-spotlight-header-margin, 32px)'
+    marginBottom: 'var(--ph-spotlight-header-margin, 32px)',
   },
   spotlightTag: {
     backgroundColor: 'rgba(255, 255, 255, 0.15)',
@@ -267,16 +285,21 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    gap: '16px'
+    gap: '12px',
+    width: '100%',
+    maxWidth: '100%',
+    boxSizing: 'border-box',
+    minWidth: 0,
   },
   appLogoContainer: {
     width: 'var(--ph-spotlight-logo-size, 84px)',
     height: 'var(--ph-spotlight-logo-size, 84px)',
-    borderRadius: '22px', // Square with rounded corners (squircle)
+    borderRadius: '20px',
     overflow: 'hidden',
     boxShadow: '0 8px 24px rgba(218, 85, 47, 0.15)',
     backgroundColor: '#ffffff',
-    marginBottom: '16px'
+    marginBottom: '8px',
+    flexShrink: 0,
   },
   appLogo: {
     width: '100%',
@@ -289,18 +312,22 @@ const styles = {
     color: theme.colors.textMain,
     margin: 0,
     fontFamily: theme.typography.fontSerif,
+    maxWidth: '100%',
+    wordBreak: 'break-word',
   },
   spotlightDesc: {
     fontSize: 'var(--ph-spotlight-desc-size, 16px)',
     color: theme.colors.textMuted,
     margin: 0,
-    lineHeight: '1.6',
-    maxWidth: '520px',
+    lineHeight: '1.55',
+    maxWidth: '100%',
+    wordBreak: 'break-word',
     fontFamily: theme.typography.fontSans
   },
   spotlightFooter: {
     marginTop: 'var(--ph-spotlight-footer-margin, 40px)',
     width: '100%',
+    boxSizing: 'border-box',
     display: 'flex',
     justifyContent: 'flex-start'
   },
@@ -324,31 +351,33 @@ const styles = {
     fontFamily: theme.typography.fontSans
   },
   visitBtnSmall: {
-    width: '42px',
-    height: '42px',
+    width: '38px',
+    height: '38px',
     borderRadius: '50%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     cursor: 'pointer',
     transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-    
-    // Premium Frosted White Glass (Subtle)
+    flexShrink: 0,
     backgroundColor: 'rgba(255, 255, 255, 0.12)',
     border: '1px solid rgba(255, 255, 255, 0.25)',
     color: '#ffffff',
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06)',
     backdropFilter: 'blur(16px)',
-    WebkitBackdropFilter: 'blur(16px)', // Safari support
+    WebkitBackdropFilter: 'blur(16px)',
   },
   listColumn: {
-    width: '100%'
+    width: '100%',
+    maxWidth: '100%',
+    minWidth: 0,
+    boxSizing: 'border-box',
   },
   listHeader: {
-    marginBottom: '20px'
+    marginBottom: '16px'
   },
   listHeading: {
-    fontSize: '18px',
+    fontSize: '17px',
     fontWeight: '700',
     color: theme.colors.textMuted,
     margin: 0,
@@ -357,29 +386,37 @@ const styles = {
   list: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '12px'
+    gap: '10px',
+    width: '100%',
+    maxWidth: '100%',
+    boxSizing: 'border-box',
   },
   listItem: {
-    padding: '12px',
+    padding: '10px 12px',
     backgroundColor: theme.colors.bgCard,
     borderRadius: '12px',
     border: `1px solid ${theme.colors.border}`,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: '12px',
     cursor: 'pointer',
     transition: 'all 0.2s',
+    width: '100%',
+    maxWidth: '100%',
+    boxSizing: 'border-box',
   },
   itemInfo: {
     display: 'flex',
     alignItems: 'center',
     gap: '12px',
-    flex: '1',
+    flex: '1 1 0%',
+    minWidth: 0,
     overflow: 'hidden'
   },
   itemThumb: {
-    width: '44px',
-    height: '44px',
+    width: '42px',
+    height: '42px',
     borderRadius: '10px',
     overflow: 'hidden',
     backgroundColor: '#eee',
@@ -394,29 +431,33 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: '2px',
+    flex: '1 1 0%',
+    minWidth: 0,
     overflow: 'hidden'
   },
   itemName: {
-    fontSize: '16px',
+    fontSize: '15px',
     fontWeight: '700',
     color: theme.colors.textMain,
     margin: 0,
     fontFamily: theme.typography.fontSans,
-    lineHeight: '1.4',
+    lineHeight: '1.35',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    textOverflow: 'ellipsis',
+    minWidth: 0,
   },
   itemDesc: {
-    fontSize: '13px',
+    fontSize: '12.5px',
     fontWeight: '500',
     color: theme.colors.textMuted,
     margin: 0,
-    lineHeight: '1.5',
+    lineHeight: '1.4',
     fontFamily: theme.typography.fontSans,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    textOverflow: 'ellipsis',
+    minWidth: 0,
   },
   voteBtn: {
     display: 'flex',
@@ -424,14 +465,15 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     gap: '2px',
-    padding: '6px 10px',
+    padding: '5px 8px',
     borderRadius: '8px',
     border: `1px solid ${theme.colors.border}`,
     background: theme.colors.bgApp,
     color: theme.colors.textMuted,
     fontSize: '11px',
     fontWeight: '700',
-    minWidth: '40px',
+    minWidth: '42px',
+    flexShrink: 0,
     fontFamily: theme.typography.fontSans
   }
 };

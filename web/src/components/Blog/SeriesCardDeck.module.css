@@ -357,22 +357,92 @@
 @media (max-width: 960px) {
   .seriesSection {
     grid-template-columns: 1fr;
-    gap: 36px;
-    margin-bottom: 72px;
+    gap: 28px;
+    margin-bottom: 60px;
   }
 
   .seriesSubcopy {
     max-width: 100%;
+    margin-top: 14px;
   }
 }
 
 @media (max-width: 640px) {
+  .seriesSection {
+    margin-bottom: 48px;
+    padding: 8px 0 16px;
+    gap: 20px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .introKickerRow {
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+
+  .introKicker {
+    font-size: 11px;
+  }
+
+  .introLine {
+    width: 28px;
+  }
+
+  .seriesHeading {
+    font-size: clamp(28px, 7vw, 36px);
+    line-height: 1.1;
+  }
+
+  .seriesSubcopy {
+    font-size: 13.5px;
+    margin: 10px 0 4px;
+    line-height: 1.5;
+  }
+
+  .seriesCardsWrap {
+    width: 100%;
+    overflow: visible;
+  }
+
   .seriesCards {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 14px;
+    padding: 4px 2px 14px;
+    scrollbar-width: none;
+    width: 100%;
+  }
+
+  .seriesCards::-webkit-scrollbar {
+    display: none;
   }
 
   .seriesCard {
-    aspect-ratio: 16 / 10;
+    flex: 0 0 82%;
+    aspect-ratio: 16 / 11;
+    border-radius: 18px;
+    scroll-snap-align: start;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .seriesCardBody {
+    padding: 0 16px 16px;
+  }
+
+  .cardTitle {
+    font-size: 15px;
+  }
+
+  .cardCount {
+    margin-top: 12px;
+    font-size: 10px;
+  }
+
+  .seriesDots {
+    margin-top: 16px;
+    justify-content: center;
   }
 }

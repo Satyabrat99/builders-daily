@@ -50,6 +50,11 @@ export default function SeriesCardDeck({ collections = [] }) {
 
   const handleTouchEnd = (e) => {
     if (touchStartX.current === null) return;
+    // On mobile screens (<= 640px), cards scroll horizontally with scroll-snap; allow native swipe
+    if (typeof window !== 'undefined' && window.innerWidth <= 640) {
+      touchStartX.current = null;
+      return;
+    }
     const diffX = touchStartX.current - e.changedTouches[0].clientX;
     if (diffX > 40 && activePage < totalPages - 1) {
       changePage(activePage + 1);

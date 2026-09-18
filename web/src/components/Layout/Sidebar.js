@@ -129,7 +129,9 @@ export default function Sidebar() {
         <div style={{
           ...styles.mobileDrawer,
           backgroundColor: currentTheme === 'dark' ? '#1A1B1E' : '#FFFFFF',
-          transform: isOpen ? 'translateX(0)' : 'translateX(100%)'
+          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+          visibility: isOpen ? 'visible' : 'hidden',
+          pointerEvents: isOpen ? 'auto' : 'none',
         }}>
           {/* Close button */}
           <button style={styles.closeButton} onClick={() => setIsOpen(false)} className="click-effect">
@@ -219,7 +221,7 @@ export default function Sidebar() {
 
   // Desktop View (default)
   return (
-    <aside style={styles.sidebar}>
+    <aside style={styles.sidebar} className="desktop-sidebar">
       <div style={styles.topSection}>
         <div style={styles.logo}>
           <img 
@@ -428,7 +430,7 @@ const styles = {
     flexDirection: 'column',
     padding: '24px',
     boxSizing: 'border-box',
-    transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+    transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease',
   },
   closeButton: {
     alignSelf: 'flex-end',

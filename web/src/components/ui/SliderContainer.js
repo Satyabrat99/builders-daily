@@ -157,12 +157,17 @@ const styles = {
   sliderWrapper: {
     position: 'relative',
     width: '100%',
+    maxWidth: '100%',
+    overflow: 'hidden',
+    boxSizing: 'border-box',
   },
   viewport: {
     width: '100%',
+    maxWidth: '100%',
     overflow: 'hidden',
     padding: '60px 0', 
     margin: '-60px 0', 
+    boxSizing: 'border-box',
   },
   track: {
     display: 'flex',

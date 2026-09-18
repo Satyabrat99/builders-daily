@@ -79,6 +79,8 @@ const styles = {
     flexDirection: 'var(--dualfeed-flex-direction, row)',
     gap: 'var(--dualfeed-gap, 60px)',
     width: '100%',
+    maxWidth: '100%',
+    boxSizing: 'border-box',
     padding: 'var(--dualfeed-container-padding, 40px 0 100px 0)',
   },
   leftCol: {

@@ -4,6 +4,8 @@
   color: var(--textMain);
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .mainContainer {
@@ -11,6 +13,7 @@
   margin: 0 auto;
   padding: 24px 0 96px;
   flex: 1;
+  box-sizing: border-box;
 }
 
 /* ==========================================================================
@@ -467,8 +470,10 @@
 
 @media (max-width: 768px) {
   .mainContainer {
-    width: calc(100% - 24px);
-    padding: 16px 0 64px;
+    width: 100%;
+    padding: 16px 16px 64px;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   .heroFrame {

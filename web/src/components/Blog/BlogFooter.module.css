@@ -7,8 +7,9 @@
   margin-top: auto;
   border-top: 1px solid var(--border);
   background: var(--bgApp);
-  padding: 64px 0 36px;
+  padding: 56px 0 32px;
   color: var(--textMain);
+  box-sizing: border-box;
   transition:
     background-color var(--transition-normal, 0.3s ease),
     border-color var(--transition-normal, 0.3s ease);
@@ -19,16 +20,19 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 36px;
+  box-sizing: border-box;
 }
 
-/* --- Top Row: Brand on left, Navigation & Social on right --- */
+/* --- Top Row: Brand on left, Newsletter on right --- */
 .topRow {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 36px;
   flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .brandCol {
@@ -37,6 +41,7 @@
   gap: 16px;
   max-width: 480px;
   flex: 1 1 360px;
+  box-sizing: border-box;
 }
 
 .brandGroup {
@@ -147,7 +152,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding-top: 4px;
+  padding-top: 2px;
 }
 
 .socialBtn {
@@ -181,6 +186,7 @@
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  box-sizing: border-box;
 }
 
 /* --- Bottom Row: Copyright & Status Indicator --- */
@@ -189,9 +195,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding-top: 24px;
+  padding-top: 22px;
   border-top: 1px solid var(--borderSubtle, rgba(255, 255, 255, 0.04));
   flex-wrap: wrap;
+  box-sizing: border-box;
 }
 
 .copyright {
@@ -223,41 +230,52 @@
 }
 
 /* ==========================================================================
-   RESPONSIVE BREAKPOINTS
+   RESPONSIVE BREAKPOINTS (MOBILE & TABLET)
    ========================================================================== */
 @media (max-width: 768px) {
   .footer {
-    padding: 48px 0 28px;
+    padding: 32px 0 24px;
   }
 
   .container {
     width: calc(100% - 32px);
-    gap: 32px;
+    gap: 22px;
   }
 
   .topRow {
     flex-direction: column;
     align-items: stretch;
-    gap: 32px;
+    gap: 22px; /* Tight, proportional spacing between brand block and newsletter */
   }
 
   .brandCol {
-    max-width: 100%;
-  }
-
-  .newsletterCol {
+    flex: none; /* CRITICAL FIX: removes desktop flex: 1 1 360px which was forcing a 360px vertical height! */
     width: 100%;
-    justify-content: stretch;
+    max-width: 100%;
+    height: auto;
+    gap: 12px;
   }
 
   .navGroup {
-    gap: 18px;
+    gap: 16px;
+  }
+
+  .socialGroup {
+    padding-top: 0;
+  }
+
+  .newsletterCol {
+    flex: none; /* CRITICAL FIX: removes desktop flex: 0 1 420px */
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    justify-content: stretch;
   }
 
   .bottomRow {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
-    padding-top: 20px;
+    gap: 8px;
+    padding-top: 16px;
   }
 }

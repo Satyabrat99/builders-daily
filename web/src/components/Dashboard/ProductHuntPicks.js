@@ -166,7 +166,6 @@ const styles = {
     maxWidth: '100%',
     boxSizing: 'border-box',
     padding: 'var(--ph-container-padding, 40px 0 20px 0)',
-    overflow: 'hidden',
   },
   header: {
     display: 'flex',
@@ -204,7 +203,7 @@ const styles = {
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'var(--ph-grid-cols, 62% 38%)',
+    gridTemplateColumns: 'var(--ph-grid-cols, minmax(0, 1.25fr) minmax(0, 1fr))',
     gap: 'var(--hn-grid-gap, 24px)',
     alignItems: 'start',
     width: '100%',
@@ -392,7 +391,7 @@ const styles = {
     boxSizing: 'border-box',
   },
   listItem: {
-    padding: '10px 12px',
+    padding: '12px 14px',
     backgroundColor: theme.colors.bgCard,
     borderRadius: '12px',
     border: `1px solid ${theme.colors.border}`,
@@ -454,9 +453,11 @@ const styles = {
     margin: 0,
     lineHeight: '1.4',
     fontFamily: theme.typography.fontSans,
-    whiteSpace: 'nowrap',
+    display: '-webkit-box',
+    WebkitLineClamp: '2',
+    WebkitBoxOrient: 'vertical',
     overflow: 'hidden',
-    textOverflow: 'ellipsis',
+    wordBreak: 'break-word',
     minWidth: 0,
   },
   voteBtn: {
@@ -465,7 +466,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     gap: '2px',
-    padding: '5px 8px',
+    padding: '6px 10px',
     borderRadius: '8px',
     border: `1px solid ${theme.colors.border}`,
     background: theme.colors.bgApp,

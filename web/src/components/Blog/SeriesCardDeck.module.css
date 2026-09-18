@@ -179,42 +179,48 @@
 }
 
 /* --- Tone Variations --- */
-.seriesCardOrange .cardTitle {
-  color: #ffffff;
-}
-
-.seriesCardOrange .cardCount {
-  color: rgba(255, 255, 255, 0.95);
-}
-
+.seriesCardOrange .cardTitle,
 .seriesCardDark .cardTitle {
-  color: #ffffff;
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6) !important;
 }
 
+.seriesCardOrange .cardCount,
 .seriesCardDark .cardCount {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.seriesCardOrange .seriesOverlay,
+.seriesCardDark .seriesOverlay {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.02) 0%,
+    rgba(0, 0, 0, 0.25) 42%,
+    rgba(0, 0, 0, 0.78) 100%
+  ) !important;
 }
 
 .seriesCardLight .seriesOverlay {
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.02) 0%,
-    rgba(255, 255, 255, 0.16) 42%,
-    rgba(255, 255, 255, 0.65) 100%
-  );
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 36%,
+    rgba(255, 255, 255, 0.88) 100%
+  ) !important;
 }
 
 .seriesCardLight .seriesCardBody {
-  color: var(--textMain, #242424);
+  color: #0f172a !important;
 }
 
 .seriesCardLight .cardTitle {
-  text-shadow: none;
-  color: var(--textHeading, #242424);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+  color: #0f172a !important;
 }
 
 .seriesCardLight .cardCount {
-  color: var(--textMuted, #666666);
+  color: #334155 !important;
+  font-weight: 700 !important;
 }
 
 /* --- Directional Slide Animations for Changing Sets --- */

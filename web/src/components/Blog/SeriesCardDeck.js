@@ -67,6 +67,38 @@ export default function SeriesCardDeck({ collections = [] }) {
     }
   };
 
+  const [detectedTones, setDetectedTones] = useState({});
+
+  const handleImageLoad = (key, e) => {
+    try {
+      const img = e.currentTarget;
+      if (!img.naturalWidth || !img.naturalHeight) return;
+      const canvas = document.createElement('canvas');
+      canvas.width = 16;
+      canvas.height = 16;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      if (!ctx) return;
+      // Sample the bottom 45% of the card where title & count text sit
+      const startY = img.naturalHeight * 0.55;
+      const height = img.naturalHeight * 0.45;
+      ctx.drawImage(img, 0, startY, img.naturalWidth, height, 0, 0, 16, 16);
+      const imgData = ctx.getImageData(0, 0, 16, 16).data;
+      let totalLuma = 0;
+      const pixelCount = imgData.length / 4;
+      for (let i = 0; i < imgData.length; i += 4) {
+        totalLuma += 0.299 * imgData[i] + 0.587 * imgData[i + 1] + 0.114 * imgData[i + 2];
+      }
+      const avgLuma = totalLuma / pixelCount;
+      // If average brightness is greater than 135, background is light
+      setDetectedTones((prev) => ({
+        ...prev,
+        [key]: avgLuma > 135 ? 'light' : 'dark',
+      }));
+    } catch {
+      // CORS fallback: keep predefined tone
+    }
+  };
+
   return (
     <section
       className={styles.seriesSection}
@@ -99,12 +131,23 @@ export default function SeriesCardDeck({ collections = [] }) {
           onTouchEnd={handleTouchEnd}
         >
           {currentCards.map((item, idx) => {
-            const toneClass = styles[`seriesCard${item.tone || 'Orange'}`] || '';
+            const cardKey = item.id || item.title || idx;
+            const rawTone = item.tone ? String(item.tone).toLowerCase() : '';
+            const detected = detectedTones[cardKey];
+            const isLight = detected ? detected === 'light' : rawTone === 'light';
+            const isDark = detected ? detected === 'dark' : rawTone === 'dark';
+
+            const toneClass = isLight
+              ? styles.seriesCardLight
+              : isDark
+              ? styles.seriesCardDark
+              : styles.seriesCardOrange;
+
             const href = item.href || '/blog';
 
             return (
               <Link
-                key={item.id || item.title || idx}
+                key={cardKey}
                 href={href}
                 className={`${styles.seriesCard} ${toneClass} ${styles[`cardDelay${idx + 1}`]}`}
                 role="listitem"
@@ -114,6 +157,8 @@ export default function SeriesCardDeck({ collections = [] }) {
                   alt={item.title}
                   className={styles.cardImage}
                   loading="lazy"
+                  crossOrigin="anonymous"
+                  onLoad={(e) => handleImageLoad(cardKey, e)}
                 />
                 <div className={styles.seriesOverlay} aria-hidden="true" />
                 <div className={styles.seriesCardBody}>

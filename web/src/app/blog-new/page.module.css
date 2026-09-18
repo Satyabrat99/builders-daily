@@ -1041,15 +1041,25 @@
 
 .seriesCardOrange .seriesCardBody,
 .seriesCardDark .seriesCardBody {
-  color: #fff;
+  color: #fff !important;
 }
 
 .seriesCardLight .seriesOverlay {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.12) 40%, rgba(255, 255, 255, 0.3) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 36%, rgba(255, 255, 255, 0.88) 100%) !important;
 }
 
 .seriesCardLight .seriesCardBody {
-  color: #0d0d0d;
+  color: #0f172a !important;
+}
+
+.seriesCardLight .seriesCardBody h3 {
+  color: #0f172a !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+.seriesCardLight .seriesCardBody p {
+  color: #334155 !important;
+  font-weight: 700 !important;
 }
 
 .seriesDots {

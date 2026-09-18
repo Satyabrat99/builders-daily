@@ -1,0 +1,234 @@
+/* web/src/app/admin/blog/blogAdmin.module.css */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 100px;
+  font-family: var(--font-body, system-ui, sans-serif);
+  color: var(--textMain);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--textMuted);
+  text-decoration: none;
+  margin-bottom: 12px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background-color: var(--bgCard);
+  border: 1px solid var(--borderDark);
+  transition: all 0.2s;
+  width: fit-content;
+}
+
+.backButton:hover {
+  color: var(--textMain);
+  border-color: var(--primary);
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--textMain);
+  margin: 0 0 6px 0;
+  letter-spacing: -0.03em;
+  font-family: var(--font-heading, system-ui, sans-serif);
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--textMuted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.newButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: #ffffff;
+  padding: 10px 22px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.newButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.45);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background: var(--bgCard);
+  border: 1px solid var(--borderDark);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary);
+}
+
+.cardCover {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-bottom: 1px solid var(--borderDark);
+  background: var(--bgApp);
+}
+
+.cardContent {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--textMain);
+  margin: 0 0 8px 0;
+  line-height: 1.35;
+  font-family: var(--font-heading, system-ui, sans-serif);
+}
+
+.slug {
+  font-size: 11px;
+  color: var(--primary);
+  background: rgba(249, 115, 22, 0.08);
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin: 0 0 16px 0;
+  font-family: monospace;
+  width: fit-content;
+}
+
+.badgeLive {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  letter-spacing: 0.04em;
+}
+
+.badgeDraft {
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  letter-spacing: 0.04em;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid var(--borderDark);
+  padding-top: 16px;
+  margin-top: auto;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--textMuted);
+  background: var(--bgApp);
+  border: 1px solid var(--borderDark);
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.actionBtn:hover {
+  color: var(--textMain);
+  border-color: var(--primary);
+}
+
+.deleteBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.deleteBtn:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--textMuted);
+  background: var(--bgCard);
+  border-radius: 20px;
+  border: 2px dashed var(--borderDark);
+  font-size: 14px;
+}
+
+.loading {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--textMuted);
+  font-size: 14px;
+  font-weight: 600;
+}

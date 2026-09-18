@@ -1,0 +1,57 @@
+.commandList {
+  background: var(--bgCard, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 1px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--borderDark, #e2e8f0);
+  overflow: hidden;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+  backdrop-filter: blur(12px);
+  z-index: 9999;
+}
+
+.commandItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 8px 10px;
+  font-size: 13.5px;
+  color: var(--textMuted, #64748b);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-weight: 500;
+  font-family: inherit;
+}
+
+.commandItem:hover, .commandItem.selected {
+  background: var(--hoverBg, rgba(255, 255, 255, 0.06));
+  color: var(--textMain, #0f172a);
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: var(--bgDarker, #f1f5f9);
+  border: 1px solid var(--borderDark, #e2e8f0);
+  border-radius: 6px;
+  color: var(--textMuted, #64748b);
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.commandItem:hover .iconWrapper, .commandItem.selected .iconWrapper {
+  background: var(--bgCard, #ffffff);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary, #f97316);
+  color: var(--primary, #f97316);
+}

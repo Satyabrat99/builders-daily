@@ -1,0 +1,147 @@
+.header {
+  width: 100%;
+  border-bottom: 1px solid var(--border);
+  background: var(--bgApp);
+  position: relative;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.brandGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: opacity var(--transition-fast, 0.15s ease);
+}
+
+.logoLink:hover {
+  opacity: 0.85;
+}
+
+.logoImage {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  background-color: var(--bgCard);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.logoText {
+  font-family: var(--font-heading, sans-serif);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--textMain);
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+.blogTag {
+  font-family: var(--font-lora, 'Lora', Georgia, serif);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 19px;
+  color: var(--primary);
+  letter-spacing: -0.015em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color var(--transition-fast, 0.15s ease),
+    opacity var(--transition-fast, 0.15s ease);
+  display: inline-flex;
+  align-items: center;
+}
+
+.slash {
+  font-family: var(--font-heading, sans-serif);
+  font-style: normal;
+  opacity: 0.45;
+  margin-right: 2px;
+  font-weight: 400;
+  transition: opacity var(--transition-fast, 0.15s ease);
+}
+
+.blogTag:hover {
+  color: var(--primaryHover);
+}
+
+.blogTag:hover .slash {
+  opacity: 0.85;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.reportBtn {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--primary);
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.1s;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+}
+
+.reportBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.themeToggleWrapper {
+  transform: scale(0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 540px) {
+  .logoText,
+  .blogTag {
+    font-size: 16px;
+  }
+  .reportBtn {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+  .container {
+    padding: 12px 24px;
+  }
+}
+
+@media (max-width: 420px) {
+  .logoText {
+    display: none;
+  }
+  .blogTag {
+    font-size: 15px;
+  }
+}

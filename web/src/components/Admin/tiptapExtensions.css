@@ -1,0 +1,424 @@
+/* Table styles (Editor & Blog post) */
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 28px 0;
+  border-radius: 12px;
+  border: 1px solid var(--borderDark, #e2e8f0);
+  background: var(--bgCard, #ffffff);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme='dark'] .tableWrapper {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: #1A1B1E;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.tiptap table,
+.tableWrapper table,
+.rich-text-content table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.tiptap table td,
+.tiptap table th,
+.tableWrapper table td,
+.tableWrapper table th,
+.rich-text-content table td,
+.rich-text-content table th {
+  min-width: 1em;
+  border-bottom: 1px solid var(--borderDark, #e2e8f0);
+  border-right: 1px solid var(--borderDark, #e2e8f0);
+  padding: 12px 16px;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+  color: var(--textMain, inherit);
+}
+
+[data-theme='dark'] .tiptap table td,
+[data-theme='dark'] .tiptap table th,
+[data-theme='dark'] .tableWrapper table td,
+[data-theme='dark'] .tableWrapper table th,
+[data-theme='dark'] .rich-text-content table td,
+[data-theme='dark'] .rich-text-content table th {
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #EDEDED;
+}
+
+.tiptap table th:last-child,
+.tiptap table td:last-child,
+.tableWrapper table th:last-child,
+.tableWrapper table td:last-child,
+.rich-text-content table th:last-child,
+.rich-text-content table td:last-child {
+  border-right: none;
+}
+
+.tiptap table tr:last-child td,
+.tableWrapper table tr:last-child td,
+.rich-text-content table tr:last-child td {
+  border-bottom: none;
+}
+
+.tiptap table th,
+.tableWrapper table th,
+.rich-text-content table th {
+  font-weight: 600;
+  text-align: left;
+  background-color: var(--bgCardHover, rgba(0, 0, 0, 0.035));
+  color: var(--textMain, inherit);
+  font-size: 14px;
+  letter-spacing: 0.01em;
+}
+
+[data-theme='dark'] .tiptap table th,
+[data-theme='dark'] .tableWrapper table th,
+[data-theme='dark'] .rich-text-content table th {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #FFFFFF;
+}
+
+/* Ensure <p> inside table cells doesn't add huge paragraph margin */
+.tiptap table td p,
+.tiptap table th p,
+.tableWrapper table td p,
+.tableWrapper table th p,
+.rich-text-content table td p,
+.rich-text-content table th p {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.tiptap table tr:nth-child(even) td,
+.tableWrapper table tr:nth-child(even) td,
+.rich-text-content table tr:nth-child(even) td {
+  background-color: rgba(0, 0, 0, 0.012);
+}
+
+[data-theme='dark'] .tiptap table tr:nth-child(even) td,
+[data-theme='dark'] .tableWrapper table tr:nth-child(even) td,
+[data-theme='dark'] .rich-text-content table tr:nth-child(even) td {
+  background-color: rgba(255, 255, 255, 0.015);
+}
+
+.tiptap table tr:hover td,
+.tableWrapper table tr:hover td,
+.rich-text-content table tr:hover td {
+  background-color: rgba(249, 115, 22, 0.04);
+}
+
+[data-theme='dark'] .tiptap table tr:hover td,
+[data-theme='dark'] .tableWrapper table tr:hover td,
+[data-theme='dark'] .rich-text-content table tr:hover td {
+  background-color: rgba(249, 115, 22, 0.08);
+}
+
+.tiptap table .selectedCell:after {
+  z-index: 2;
+  position: absolute;
+  content: "";
+  left: 0; right: 0; top: 0; bottom: 0;
+  background: rgba(249, 115, 22, 0.15);
+  pointer-events: none;
+}
+
+.tiptap table .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: -2px;
+  width: 4px;
+  background-color: var(--primary, #f97316);
+  pointer-events: none;
+}
+
+/* Task list styles (Editor & Blog post) */
+.tiptap ul[data-type="taskList"],
+.rich-text-content ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0;
+  margin: 1.5em 0;
+}
+
+.tiptap ul[data-type="taskList"] li,
+.rich-text-content ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
+  color: var(--textMain, inherit);
+}
+
+.tiptap ul[data-type="taskList"] li > label,
+.rich-text-content ul[data-type="taskList"] li > label {
+  display: flex;
+  align-items: center;
+  margin-top: 3px;
+  user-select: none;
+}
+
+.tiptap ul[data-type="taskList"] li input[type="checkbox"],
+.rich-text-content ul[data-type="taskList"] li input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--primary, #f97316);
+  cursor: pointer;
+}
+
+.tiptap ul[data-type="taskList"] li > div,
+.rich-text-content ul[data-type="taskList"] li > div {
+  flex: 1;
+}
+
+.tiptap ul[data-type="taskList"] li > div p,
+.rich-text-content ul[data-type="taskList"] li > div p {
+  margin: 0 !important;
+}
+
+/* Image styles */
+.tiptap img,
+.rich-text-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin: 24px auto;
+  display: block;
+}
+
+/* Callout */
+.tiptap .callout-block,
+.rich-text-content .callout-block {
+  background: rgba(249, 115, 22, 0.08);
+  border-left: 4px solid var(--primary, #f97316);
+  padding: 18px 22px;
+  margin: 24px 0;
+  border-radius: 8px;
+  color: var(--textMain, #0f172a);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+[data-theme='dark'] .tiptap .callout-block,
+[data-theme='dark'] .rich-text-content .callout-block {
+  background: rgba(249, 115, 22, 0.12);
+  color: #EDEDED;
+}
+
+/* Blockquote */
+.tiptap blockquote,
+.rich-text-content blockquote {
+  font-family: var(--font-display, 'Lora', Georgia, serif);
+  font-weight: 400;
+  padding-left: 20px;
+  margin: 1.5em 0;
+  font-style: italic;
+  color: var(--textMuted, rgba(36, 36, 36, 0.7));
+  font-size: 17px;
+  line-height: 1.5;
+  border-left: 3px solid var(--primary, #f97316);
+}
+
+[data-theme='dark'] .tiptap blockquote,
+[data-theme='dark'] .rich-text-content blockquote {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* YouTube embeds */
+.tiptap div[data-youtube-video],
+.rich-text-content div[data-youtube-video] {
+  margin: 28px 0;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.tiptap div[data-youtube-video] iframe,
+.rich-text-content div[data-youtube-video] iframe {
+  border: 0;
+  border-radius: 12px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+}
+
+/* Multi-column Tweet Grid for consecutive tweets */
+.tweetGrid {
+  display: grid;
+  gap: 16px;
+  margin: 32px 0;
+  width: 100%;
+  align-items: start;
+}
+
+.tweetGrid[data-count="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tweetGrid[data-count="3"],
+.tweetGrid[data-count="5"],
+.tweetGrid[data-count="6"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.tweetGrid[data-count="4"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 1100px) {
+  .tweetGrid[data-count="3"],
+  .tweetGrid[data-count="5"],
+  .tweetGrid[data-count="6"] {
+    width: min(860px, calc(100% + 180px));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) and (min-width: 601px) {
+  .tweetGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px;
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .tweetGrid {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+    width: 100% !important;
+  }
+}
+
+/* Twitter / X card */
+.tweetCardWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 28px 0;
+  width: 100%;
+  pointer-events: auto;
+}
+
+.tweetCardInner {
+  width: 100%;
+  min-width: 0;
+  position: relative;
+  display: flex;
+}
+
+.tweetCardInner.singleTweet {
+  max-width: 420px;
+}
+
+.tweetCardInner .react-tweet-theme {
+  --tweet-container-margin: 0;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  border-radius: 14px !important;
+  border: 1px solid var(--borderDark, #e2e8f0) !important;
+  background-color: var(--bgCard, #ffffff) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tweetCardInner:hover .react-tweet-theme {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme='dark'] .tweetCardInner .react-tweet-theme {
+  --tweet-border: rgba(255, 255, 255, 0.12);
+  --tweet-border-hover: rgba(255, 255, 255, 0.2);
+  --tweet-bg-color: #1A1B1E;
+  --tweet-bg-color-hover: #25262B;
+  --tweet-font-color: #EDEDED;
+  --tweet-font-color-secondary: #94a3b8;
+  --tweet-color-blue-primary: #f97316;
+  --tweet-color-blue-secondary: #f97316;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  background-color: #1A1B1E !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* In editor: consecutive tweets side-by-side */
+.tiptap .tweet-wrapper {
+  display: block;
+  margin: 16px auto;
+  width: 100%;
+  max-width: 420px;
+}
+
+.tiptap .tweet-wrapper:has(+ .tweet-wrapper),
+.tiptap .tweet-wrapper + .tweet-wrapper {
+  display: inline-block !important;
+  vertical-align: top;
+  width: calc(50% - 12px) !important;
+  max-width: calc(50% - 12px) !important;
+  margin: 12px 6px !important;
+}
+
+@media (min-width: 900px) {
+  .tiptap .tweet-wrapper:has(+ .tweet-wrapper + .tweet-wrapper),
+  .tiptap .tweet-wrapper:has(+ .tweet-wrapper) + .tweet-wrapper,
+  .tiptap .tweet-wrapper + .tweet-wrapper + .tweet-wrapper {
+    width: calc(33.333% - 12px) !important;
+    max-width: calc(33.333% - 12px) !important;
+    margin: 10px 6px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .tiptap .tweet-wrapper,
+  .tiptap .tweet-wrapper:has(+ .tweet-wrapper),
+  .tiptap .tweet-wrapper + .tweet-wrapper {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 14px 0 !important;
+  }
+}
+
+/* Gist Card */
+.gistCardWrapper {
+  margin: 28px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--borderDark, #e2e8f0);
+}
+
+[data-theme='dark'] .gistCardWrapper {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Tippy Builder Theme */
+.tippy-box[data-theme~='builder'] {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+.tippy-box[data-theme~='builder'] .tippy-content {
+  padding: 0 !important;
+}
+
+/* Highlight */
+.tiptap mark,
+.rich-text-content mark {
+  background-color: rgba(249, 115, 22, 0.25);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 2px;
+}

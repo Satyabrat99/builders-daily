@@ -1,0 +1,204 @@
+/**
+ * AI Builder Daily - Design Token System
+ * Single Source of Truth (SSOT) for colors, spacing, radius, shadows, typography, and semantic states.
+ * 
+ * Modifying any token here updates the design universally across vanilla CSS, CSS modules, and components.
+ */
+
+:root {
+  /* ==========================================================================
+     1. SURFACES & BACKGROUNDS (LIGHT MODE)
+     ========================================================================== */
+  --bgApp: #FAF9F6;
+  --bgSidebar: rgba(255, 255, 255, 0.5);
+  --bgCard: rgba(255, 255, 255, 0.7);
+  --bgCardHover: rgba(255, 255, 255, 0.95);
+  --bgContentCard: rgba(249, 115, 22, 0.05);
+  --bgContentCardHover: rgba(255, 255, 255, 0.95);
+  --mobile-drawer-bg: #FFFFFF;
+
+  /* Glassmorphism */
+  --glassBg: rgba(255, 255, 255, 0.4);
+  --glassBorder: rgba(255, 255, 255, 0.5);
+  --glassBlur: blur(16px);
+
+  /* ==========================================================================
+     2. BORDERS & DIVIDERS (LIGHT MODE)
+     ========================================================================== */
+  --border: rgba(0, 0, 0, 0.05);
+  --borderDark: rgba(0, 0, 0, 0.1);
+  --borderSubtle: rgba(0, 0, 0, 0.03);
+
+  /* ==========================================================================
+     3. TYPOGRAPHY & TEXT COLORS (LIGHT MODE)
+     ========================================================================== */
+  --textMain: #242424;
+  --textHeading: rgba(36, 36, 36, 0.95);
+  --textMuted: #666666;
+  --textInverse: #FFFFFF;
+
+  /* ==========================================================================
+     4. BRAND COLORS
+     ========================================================================== */
+  --primary: #f97316;
+  --primaryHover: #ea580c;
+  --primaryTint: rgba(249, 115, 22, 0.1);
+  --primaryTintHover: rgba(249, 115, 22, 0.18);
+  --accent: #6366f1;
+  --accentHover: #4f46e5;
+  --accentTint: rgba(99, 102, 241, 0.1);
+
+  /* ==========================================================================
+     5. SEMANTIC STATUS COLORS (LIGHT MODE)
+     ========================================================================== */
+  /* Success (Published, Active, Live) */
+  --statusSuccess: #10b981;
+  --statusSuccessBg: rgba(16, 185, 129, 0.12);
+  --statusSuccessBorder: rgba(16, 185, 129, 0.3);
+
+  /* Danger / Error (Revoked, Failed, Error) */
+  --statusDanger: #ef4444;
+  --statusDangerBg: rgba(239, 68, 68, 0.12);
+  --statusDangerBorder: rgba(239, 68, 68, 0.3);
+
+  /* Warning / Pending (Staged, Needs Review) */
+  --statusWarning: #f59e0b;
+  --statusWarningBg: rgba(245, 158, 11, 0.15);
+  --statusWarningBorder: rgba(245, 158, 11, 0.3);
+
+  /* Neutral / Inactive (Draft, Archived) */
+  --statusNeutral: #94a3b8;
+  --statusNeutralBg: rgba(100, 116, 139, 0.12);
+  --statusNeutralBorder: rgba(100, 116, 139, 0.3);
+
+  /* Info / Informative (Blue) */
+  --statusInfo: #3b82f6;
+  --statusInfoBg: rgba(59, 130, 246, 0.12);
+  --statusInfoBorder: rgba(59, 130, 246, 0.3);
+
+  /* ==========================================================================
+     6. BORDER RADIUS SCALE
+     ========================================================================== */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-3xl: 32px;
+  --radius-full: 9999px;
+
+  /* ==========================================================================
+     7. SHADOW SCALE
+     ========================================================================== */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.05);
+  --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.06);
+  --shadow-floating: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
+  --shadow-spotlight: 0 0 20px rgba(99, 102, 241, 0.15);
+
+  /* ==========================================================================
+     8. SPACING SCALE (4px BASE GRID)
+     ========================================================================== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ==========================================================================
+     9. MOTION & TRANSITIONS
+     ========================================================================== */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --transition-smooth: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  --motion-standard: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ==========================================================================
+     10. Z-INDEX SCALE
+     ========================================================================== */
+  --z-base: 0;
+  --z-card: 1;
+  --z-sticky: 100;
+  --z-dock: 500;
+  --z-drawer: 900;
+  --z-modal: 1000;
+  --z-popover: 1100;
+  --z-toast: 1200;
+}
+
+/* ==========================================================================
+   DARK MODE OVERRIDES ([data-theme='dark'])
+   ========================================================================== */
+[data-theme='dark'] {
+  /* Surfaces & Backgrounds */
+  --bgApp: #121212;
+  --bgSidebar: rgba(28, 28, 30, 0.5);
+  --bgCard: #1A1B1E;
+  --bgCardHover: #25262B;
+  --bgContentCard: #1A1B1E;
+  --bgContentCardHover: rgba(249, 115, 22, 0.12);
+  --mobile-drawer-bg: #1A1B1E;
+
+  /* Glassmorphism */
+  --glassBg: rgba(28, 28, 30, 0.4);
+  --glassBorder: rgba(255, 255, 255, 0.08);
+
+  /* Borders & Dividers */
+  --border: rgba(255, 255, 255, 0.05);
+  --borderDark: rgba(255, 255, 255, 0.12);
+  --borderSubtle: rgba(255, 255, 255, 0.03);
+
+  /* Typography & Text */
+  --textMain: #EDEDED;
+  --textHeading: #EDEDED;
+  --textMuted: #A1A1A1;
+  --textInverse: #0A0A0A;
+
+  /* Brand Accents */
+  --primary: #f97316;
+  --primaryHover: #ea580c;
+  --primaryTint: rgba(249, 115, 22, 0.15);
+  --primaryTintHover: rgba(249, 115, 22, 0.25);
+  --accent: #FF8A3D;
+  --accentHover: #ff9e59;
+  --accentTint: rgba(255, 138, 61, 0.15);
+
+  /* Semantic Status */
+  --statusSuccess: #10b981;
+  --statusSuccessBg: rgba(16, 185, 129, 0.16);
+  --statusSuccessBorder: rgba(16, 185, 129, 0.35);
+
+  --statusDanger: #ef4444;
+  --statusDangerBg: rgba(239, 68, 68, 0.16);
+  --statusDangerBorder: rgba(239, 68, 68, 0.35);
+
+  --statusWarning: #f59e0b;
+  --statusWarningBg: rgba(245, 158, 11, 0.18);
+  --statusWarningBorder: rgba(245, 158, 11, 0.35);
+
+  --statusNeutral: #94a3b8;
+  --statusNeutralBg: rgba(100, 116, 139, 0.16);
+  --statusNeutralBorder: rgba(100, 116, 139, 0.35);
+
+  --statusInfo: #3b82f6;
+  --statusInfoBg: rgba(59, 130, 246, 0.16);
+  --statusInfoBorder: rgba(59, 130, 246, 0.35);
+
+  /* Dark mode shadow tuning */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.4);
+  --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.5);
+  --shadow-floating: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
+  --shadow-spotlight: 0 0 20px rgba(255, 138, 61, 0.25);
+}

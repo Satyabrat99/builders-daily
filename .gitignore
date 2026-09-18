@@ -1,3 +1,46 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment Variables & Secrets (CRITICAL: Never commit credentials)
+.env
+.env.*
+*.env
+*.env.local
+backend/.env
+backend/.env.*
+web/.env
+web/.env.*
+web/.env.local
+!.env.example
+!*.env.example
+!**/.env.example
+
+# Next.js Build Output
+.next/
+web/.next/
+out/
+build/
+dist/
+coverage/
+
+# Logs & Temporary Files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+scratch/
+backend/scratch*
+temp/
+tmp/
+.temp/
+
+# OS & Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
 
 # YoYo AI version control directory
 .yoyo/

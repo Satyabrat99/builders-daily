@@ -1,0 +1,25 @@
+{
+  "daily_reports": [
+    {
+      "report_date": "2026-04-15",
+      "content_md": "# Daily AI Developer Digest\n\n## 🏆 Model of the Day\n**Llama-3-70b** continues to trend heavily..."
+    }
+  ],
+  "hf_models": [
+    {
+      "hf_id": "meta-llama/Llama-3-70b-instruct",
+      "description": "Meta's highly capable instructions tuned model.",
+      "url": "https://huggingface.co/meta-llama/...",
+      "likes": 8400,
+      "downloads": 120000
+    }
+  ],
+  "github_trending": [
+    {
+      "repo_name": "example-ai/agent-framework",
+      "description": "An exploratory framework for autonomous agents.",
+      "url": "https://github.com/...",
+      "stars_today": 340
+    }
+  ]
+}

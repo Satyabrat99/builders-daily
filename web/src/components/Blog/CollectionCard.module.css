@@ -1,0 +1,344 @@
+/* Web frost approximation of the product glass tokens. Not Apple Liquid Glass. */
+
+.card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--glassBorder);
+  background: var(--glassBg);
+  backdrop-filter: var(--glassBlur) saturate(160%);
+  -webkit-backdrop-filter: var(--glassBlur) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.55),
+    inset 0 -1px 0 rgb(255 255 255 / 0.08),
+    var(--shadow-card);
+  transition:
+    transform var(--transition-smooth),
+    box-shadow var(--transition-smooth),
+    border-color var(--transition-smooth),
+    background-color var(--transition-smooth);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 18% 0%, rgb(255 255 255 / 0.5), transparent 42%),
+    linear-gradient(90deg, rgb(255 255 255 / 0.16), transparent 46%);
+  pointer-events: none;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: 0;
+  border-radius: inherit;
+  border: 1px solid rgb(255 255 255 / 0.22);
+  pointer-events: none;
+}
+
+.card:hover,
+.card:focus-within {
+  border-color: color-mix(in srgb, var(--primary) 28%, var(--glassBorder));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.65),
+    var(--shadow-hover);
+  transform: translateY(-4px);
+}
+
+.deck,
+.body {
+  position: relative;
+  z-index: 1;
+}
+
+.deck {
+  flex: 1;
+  min-height: 0;
+  padding: 18px 14px 8px;
+  perspective: 900px;
+  transform-style: preserve-3d;
+}
+
+.print {
+  position: absolute;
+  left: 50%;
+  top: 16px;
+  width: min(62%, 170px);
+  display: block;
+  padding: 6px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glassBorder);
+  background: var(--glassBg);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.5),
+    0 14px 28px rgba(15, 15, 15, 0.1);
+  text-decoration: none;
+  color: var(--textMain);
+  transform-origin: 50% 110%;
+  transition: transform var(--transition-smooth);
+}
+
+.print1 {
+  z-index: 1;
+  transform: translateX(-62%) rotate(-11deg) translateY(18px) scale(0.9);
+}
+
+.print2 {
+  z-index: 2;
+  transform: translateX(-48%) rotate(-2deg) translateY(8px) scale(0.96);
+}
+
+.print3 {
+  z-index: 3;
+  transform: translateX(-34%) rotate(7deg) translateY(0) scale(1);
+}
+
+.printSolo {
+  z-index: 3;
+  transform: translateX(-50%) rotate(3deg) translateY(4px) scale(1);
+}
+
+.card:hover .print1,
+.card:focus-within .print1 {
+  transform: translateX(-74%) rotate(-14deg) translateY(-8px) scale(0.92);
+}
+
+.card:hover .print2,
+.card:focus-within .print2 {
+  transform: translateX(-50%) rotate(-3deg) translateY(-18px) scale(0.98);
+}
+
+.card:hover .print3,
+.card:focus-within .print3 {
+  transform: translateX(-22%) rotate(9deg) translateY(-10px) scale(1.03);
+}
+
+.card:hover .printSolo,
+.card:focus-within .printSolo {
+  transform: translateX(-50%) rotate(2deg) translateY(-12px) scale(1.04);
+}
+
+.printFrame {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: calc(var(--radius-md) - 3px);
+  background: color-mix(in srgb, var(--textMain) 8%, transparent);
+}
+
+.printImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition-smooth);
+}
+
+.print:hover .printImage {
+  transform: scale(1.05);
+}
+
+.part {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  padding: 4px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--glassBorder);
+  background: var(--glassBg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--primaryHover);
+  font-family: var(--font-heading, system-ui, sans-serif);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 12px 16px 16px;
+  border-top: 1px solid rgb(255 255 255 / 0.35);
+}
+
+.bodyTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.name {
+  margin: 0;
+  color: var(--textMain);
+  font-family: var(--font-heading, system-ui, sans-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.count {
+  flex-shrink: 0;
+  margin-top: 2px;
+  padding: 5px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
+  background: var(--primaryTint);
+  color: var(--primaryHover);
+  font-family: var(--font-heading, system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  color: var(--primaryHover);
+  font-family: var(--font-heading, system-ui, sans-serif);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--primary) 45%, transparent);
+  padding-bottom: 1px;
+  transition: gap var(--transition-fast), color var(--transition-fast);
+}
+
+.explore:hover,
+.explore:focus-visible {
+  color: var(--primary);
+  gap: 10px;
+}
+
+.explore:active {
+  transform: translateY(1px);
+}
+
+.exploreDisabled {
+  margin-top: 4px;
+  color: var(--textMuted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.print:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+  .print {
+    width: min(64%, 180px);
+  }
+
+  .card:hover .print1,
+  .card:focus-within .print1,
+  .print1 {
+    transform: translateX(-58%) rotate(-8deg) translateY(12px) scale(0.92);
+  }
+
+  .card:hover .print2,
+  .card:focus-within .print2,
+  .print2 {
+    transform: translateX(-46%) rotate(-1deg) translateY(6px) scale(0.97);
+  }
+
+  .card:hover .print3,
+  .card:focus-within .print3,
+  .print3 {
+    transform: translateX(-32%) rotate(6deg) translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .print,
+  .printImage,
+  .explore {
+    transition: none;
+  }
+
+  .card:hover,
+  .card:focus-within {
+    transform: none;
+  }
+
+  .print1,
+  .card:hover .print1,
+  .card:focus-within .print1 {
+    transform: translateX(-62%) rotate(-8deg) translateY(14px) scale(0.92);
+  }
+
+  .print2,
+  .card:hover .print2,
+  .card:focus-within .print2 {
+    transform: translateX(-48%) rotate(-1deg) translateY(8px) scale(0.96);
+  }
+
+  .print3,
+  .card:hover .print3,
+  .card:focus-within .print3 {
+    transform: translateX(-34%) rotate(5deg) translateY(0) scale(1);
+  }
+
+  .printSolo,
+  .card:hover .printSolo,
+  .card:focus-within .printSolo {
+    transform: translateX(-50%) rotate(2deg) translateY(4px) scale(1);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .card,
+  .print,
+  .part {
+    background: var(--bgCard);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+[data-theme='dark'] .body {
+  border-top-color: rgb(255 255 255 / 0.08);
+}
+
+[data-theme='dark'] .card {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.14),
+    var(--shadow-card);
+}
+
+[data-theme='dark'] .card::before {
+  background:
+    radial-gradient(circle at 18% 0%, rgb(255 255 255 / 0.12), transparent 42%),
+    linear-gradient(90deg, rgb(255 255 255 / 0.06), transparent 46%);
+}
+
+[data-theme='dark'] .card::after {
+  border-color: rgb(255 255 255 / 0.08);
+}
+
+

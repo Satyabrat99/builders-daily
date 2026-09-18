@@ -1,5 +1,5 @@
 import { NodeViewWrapper } from '@tiptap/react';
-import Gist from 'react-gist';
+import GistEmbed from '@/components/Blog/GistEmbed';
 
 export default function GistNodeView({ node }) {
   const { id } = node.attrs;
@@ -8,7 +8,7 @@ export default function GistNodeView({ node }) {
   return (
     <NodeViewWrapper className="gist-wrapper" contentEditable={false}>
       <div style={{ pointerEvents: 'auto', margin: '24px 0' }}>
-        <Gist id={id} />
+        <GistEmbed id={id} />
       </div>
     </NodeViewWrapper>
   );

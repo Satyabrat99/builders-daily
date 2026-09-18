@@ -6,7 +6,7 @@ import './syntax-theme.css'; // Dark theme overrides
 
 import parse, { domToReact } from 'html-react-parser';
 import { Tweet } from 'react-tweet';
-import ReactGist from 'react-gist';
+import GistEmbed from './GistEmbed';
 import CodeBlock from './CodeBlock';
 
 function groupConsecutiveTweets(html) {
@@ -117,7 +117,7 @@ export default function RichTextRenderer({ htmlContent }) {
       if (domNode.attribs && domNode.attribs['data-gist-id']) {
         return (
           <div className="gistCardWrapper">
-            <ReactGist id={domNode.attribs['data-gist-id']} />
+            <GistEmbed id={domNode.attribs['data-gist-id']} />
           </div>
         );
       }

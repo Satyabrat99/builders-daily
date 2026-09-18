@@ -77,6 +77,16 @@ export default function Sidebar() {
     }
   };
 
+  const [imgError, setImgError] = useState(false);
+  const avatarUrl = !imgError ? (
+    user?.user_metadata?.avatar_url ||
+    user?.user_metadata?.picture ||
+    user?.user_metadata?.avatar ||
+    user?.identities?.[0]?.identity_data?.avatar_url ||
+    user?.identities?.[0]?.identity_data?.picture ||
+    null
+  ) : null;
+
   const initial = user?.email?.charAt(0).toUpperCase() || 'U';
 
   const menuItems = [
@@ -149,7 +159,18 @@ export default function Sidebar() {
             {user && (
               <div style={styles.mobileUserSection}>
                 <div style={styles.mobileUserInfo} onClick={() => setShowDropdown(!showDropdown)}>
-                  <div style={styles.avatar}>{initial}</div>
+                  <div style={styles.avatar}>
+                    {avatarUrl ? (
+                      <img
+                        src={avatarUrl}
+                        alt={user.email || 'Profile'}
+                        onError={() => setImgError(true)}
+                        style={styles.avatarImg}
+                      />
+                    ) : (
+                      initial
+                    )}
+                  </div>
                   <div style={styles.mobileEmail}>{user.email}</div>
                 </div>
                 {showDropdown && (
@@ -235,7 +256,16 @@ export default function Sidebar() {
             />
           )}
           <div style={styles.avatar}>
-            {initial}
+            {avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt={user.email || 'Profile'}
+                onError={() => setImgError(true)}
+                style={styles.avatarImg}
+              />
+            ) : (
+              initial
+            )}
           </div>
         </div>
       )}
@@ -328,6 +358,14 @@ const styles = {
     fontFamily: theme.typography.fontSans,
     color: theme.colors.textMain,
     boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
+    overflow: 'hidden',
+    flexShrink: 0,
+  },
+  avatarImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    display: 'block',
   },
   themeToggleWrapper: {
     marginTop: '16px',

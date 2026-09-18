@@ -47,21 +47,47 @@ export default function UserDropdown({ onClose, onReachUs }) {
     }
   };
 
+  const avatarUrl = user?.user_metadata?.avatar_url ||
+    user?.user_metadata?.picture ||
+    user?.user_metadata?.avatar ||
+    user?.identities?.[0]?.identity_data?.avatar_url ||
+    user?.identities?.[0]?.identity_data?.picture ||
+    null;
+
+  const initial = user?.email?.charAt(0).toUpperCase() || 'U';
+
   return (
     <div style={styles.container}>
       <div style={styles.arrow}></div>
       <div style={styles.menu}>
-        <div style={styles.item} onClick={handleWriteClick}>
+        {user?.email && (
+          <>
+            <div style={styles.userInfoHeader}>
+              <div style={styles.userMiniAvatar}>
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt="" style={styles.userMiniAvatarImg} />
+                ) : (
+                  initial
+                )}
+              </div>
+              <div style={styles.userEmailText} title={user.email}>
+                {user.email}
+              </div>
+            </div>
+            <div style={styles.divider}></div>
+          </>
+        )}
+        <div style={styles.item} onClick={handleWriteClick} className="user-dropdown-item">
           <Edit3 size={16} />
           <span>Write on Builders</span>
         </div>
         <div style={styles.divider}></div>
-        <div style={styles.item} onClick={handleReachUsClick}>
+        <div style={styles.item} onClick={handleReachUsClick} className="user-dropdown-item">
           <MessageCircle size={16} />
           <span>Reach us</span>
         </div>
         <div style={styles.divider}></div>
-        <div style={{...styles.item, color: '#ef4444'}} onClick={handleLogout}>
+        <div style={{...styles.item, color: 'var(--statusDanger)'}} onClick={handleLogout} className="user-dropdown-item">
           <LogOut size={16} />
           <span>Logout</span>
         </div>
@@ -85,33 +111,69 @@ const styles = {
     transform: 'rotate(45deg)',
     width: '12px',
     height: '12px',
-    backgroundColor: '#fff',
-    borderBottom: '1px solid #e2e8f0',
-    borderRight: '1px solid #e2e8f0',
+    backgroundColor: 'var(--bgCard)',
+    borderBottom: '1px solid var(--borderDark)',
+    borderRight: '1px solid var(--borderDark)',
   },
   menu: {
-    backgroundColor: '#fff',
-    border: '1px solid #e2e8f0',
-    borderRadius: '12px',
-    boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
-    width: '160px',
+    backgroundColor: 'var(--bgCard)',
+    border: '1px solid var(--borderDark)',
+    borderRadius: '14px',
+    boxShadow: 'var(--shadow-hover)',
+    width: '180px',
     overflow: 'hidden',
-    padding: '8px 0',
+    padding: '6px 0',
+    backdropFilter: 'blur(16px)',
+  },
+  userInfoHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    padding: '8px 14px',
+  },
+  userMiniAvatar: {
+    width: '26px',
+    height: '26px',
+    borderRadius: '8px',
+    backgroundColor: 'var(--bgApp)',
+    border: '1px solid var(--borderDark)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '11px',
+    fontWeight: '700',
+    color: 'var(--textMain)',
+    overflow: 'hidden',
+    flexShrink: 0,
+  },
+  userMiniAvatarImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    display: 'block',
+  },
+  userEmailText: {
+    fontSize: '12px',
+    fontWeight: '600',
+    color: 'var(--textMain)',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
   item: {
     display: 'flex',
     alignItems: 'center',
-    gap: '12px',
-    padding: '10px 16px',
-    fontSize: '14px',
+    gap: '10px',
+    padding: '9px 14px',
+    fontSize: '13px',
     fontWeight: '500',
-    color: '#374151',
+    color: 'var(--textMain)',
     cursor: 'pointer',
     transition: 'background-color 0.2s',
   },
   divider: {
     height: '1px',
-    backgroundColor: '#f3f4f6',
+    backgroundColor: 'var(--border)',
     margin: '4px 0',
   }
 };

@@ -228,8 +228,8 @@ a {
   --hn-grid-cols: repeat(3, 1fr);
   --hn-grid-rows: repeat(2, auto);
 
-  --ph-grid-cols: minmax(0, 1.15fr) minmax(0, 1fr);
-  --ph-container-padding: 40px 0 100px 0;
+  --ph-grid-cols: minmax(0, 1.5fr) minmax(0, 1fr);
+  --ph-container-padding: 40px 0 60px 0;
   --promo-height: 290px;
   --section-title-font-size: 32px;
   --slider-header-padding-horizontal: 20px;

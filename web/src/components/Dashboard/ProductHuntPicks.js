@@ -87,13 +87,13 @@ export default function ProductHuntPicks({ items }) {
         {/* Left Column: Spotlight Card */}
         <div style={styles.spotlightColumn}>
           {spotlightTool.url ? (
-            <a href={spotlightTool.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', width: '100%', maxWidth: '100%', height: '100%', color: 'inherit', boxSizing: 'border-box' }}>
-              <Tilt glareEnable={true} glareMaxOpacity={0.25} glareColor="#ffffff" glarePosition="all" glareBorderRadius={theme.radius.lg} scale={1.01} transitionSpeed={2000} tiltMaxAngleX={4} tiltMaxAngleY={4} style={{ width: '100%', maxWidth: '100%', height: '100%', boxSizing: 'border-box' }}>
+            <a href={spotlightTool.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', width: '100%', maxWidth: '100%', color: 'inherit', boxSizing: 'border-box' }}>
+              <Tilt glareEnable={true} glareMaxOpacity={0.25} glareColor="#ffffff" glarePosition="all" glareBorderRadius={theme.radius.lg} scale={1.01} transitionSpeed={2000} tiltMaxAngleX={4} tiltMaxAngleY={4} style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
                 <SpotlightInnerContent />
               </Tilt>
             </a>
           ) : (
-            <Tilt glareEnable={true} glareMaxOpacity={0.25} glareColor="#ffffff" glarePosition="all" glareBorderRadius={theme.radius.lg} scale={1.01} transitionSpeed={2000} tiltMaxAngleX={4} tiltMaxAngleY={4} style={{ width: '100%', maxWidth: '100%', height: '100%', boxSizing: 'border-box' }}>
+            <Tilt glareEnable={true} glareMaxOpacity={0.25} glareColor="#ffffff" glarePosition="all" glareBorderRadius={theme.radius.lg} scale={1.01} transitionSpeed={2000} tiltMaxAngleX={4} tiltMaxAngleY={4} style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
               <SpotlightInnerContent />
             </Tilt>
           )}
@@ -154,7 +154,7 @@ const styles = {
     width: '100%',
     maxWidth: '100%',
     boxSizing: 'border-box',
-    padding: 'var(--ph-container-padding, 40px 0 100px 0)',
+    padding: 'var(--ph-container-padding, 40px 0 60px 0)',
   },
   header: {
     display: 'flex',
@@ -192,9 +192,9 @@ const styles = {
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'var(--ph-grid-cols, minmax(0, 1.15fr) minmax(0, 1fr))',
+    gridTemplateColumns: 'var(--ph-grid-cols, minmax(0, 1.5fr) minmax(0, 1fr))',
     gap: 'var(--hn-grid-gap, 24px)',
-    alignItems: 'stretch',
+    alignItems: 'start',
     width: '100%',
     maxWidth: '100%',
     boxSizing: 'border-box',
@@ -202,7 +202,6 @@ const styles = {
   spotlightColumn: {
     width: '100%',
     maxWidth: '100%',
-    height: '100%',
     minWidth: 0,
     boxSizing: 'border-box',
   },
@@ -227,7 +226,6 @@ const styles = {
     width: '100%',
     maxWidth: '100%',
     boxSizing: 'border-box',
-    height: '100%',
     minHeight: 'var(--ph-spotlight-min-height, 440px)',
     position: 'relative',
     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
@@ -237,8 +235,6 @@ const styles = {
     zIndex: 1,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '100%',
     width: '100%',
     maxWidth: '100%',
     boxSizing: 'border-box',
@@ -315,8 +311,7 @@ const styles = {
     fontFamily: theme.typography.fontSans
   },
   spotlightFooter: {
-    marginTop: 'auto',
-    paddingTop: 'var(--ph-spotlight-footer-margin, 24px)',
+    marginTop: 'var(--ph-spotlight-footer-margin, 40px)',
     width: '100%',
     boxSizing: 'border-box',
     display: 'flex',

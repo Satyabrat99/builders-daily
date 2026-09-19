@@ -54,7 +54,51 @@ async function generateDailyReport() {
     const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
-    // 1. Fetch Today's Data
+    // Calculate current week boundary (Monday 00:00:00 UTC)
+    // Ensures weekend reports use unseen papers from this week only ("no pool from previous week")
+    const now = new Date();
+    const currentDay = now.getUTCDay(); // 0 is Sunday, 1 is Monday, ..., 6 is Saturday
+    const diffToMonday = (currentDay + 6) % 7;
+    const startOfWeek = new Date(now);
+    startOfWeek.setUTCDate(startOfWeek.getUTCDate() - diffToMonday);
+    startOfWeek.setUTCHours(0, 0, 0, 0);
+    const startOfWeekIso = startOfWeek.toISOString();
+    const startOfWeekDateStr = startOfWeekIso.split('T')[0];
+    const todayDateStr = now.toISOString().split('T')[0];
+
+    const normalizeTitle = (t) => (t || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const extractArxivId = (urlOrId) => {
+      if (!urlOrId) return '';
+      const match = String(urlOrId).match(/(\d{4}\.\d{4,5})/);
+      return match ? match[1] : String(urlOrId).toLowerCase().trim();
+    };
+
+    // Fetch reports from current week (excluding today if re-running) to collect already published papers
+    const { data: weekReports } = await supabase
+      .from('daily_reports')
+      .select('report_date, content_json')
+      .gte('report_date', startOfWeekDateStr)
+      .lt('report_date', todayDateStr);
+
+    const publishedPaperIds = new Set();
+    const publishedTitles = new Set();
+
+    if (weekReports) {
+      for (const report of weekReports) {
+        const fresh = report.content_json?.freshLinks || [];
+        for (const link of fresh) {
+          if (link.url) publishedPaperIds.add(extractArxivId(link.url));
+          if (link.title) publishedTitles.add(normalizeTitle(link.title));
+        }
+        const potd = report.content_json?.dailyReport?.paperOfTheDay;
+        if (potd) {
+          if (potd.url) publishedPaperIds.add(extractArxivId(potd.url));
+          if (potd.name) publishedTitles.add(normalizeTitle(potd.name));
+        }
+      }
+    }
+
+    // 1. Fetch Today's Data (strictly this week's papers for ArXiv)
     const [
       { data: hfModelsRaw },
       { data: githubReposRaw },
@@ -69,7 +113,7 @@ async function generateDailyReport() {
       supabase.from('hn_trending').select('title,url,score').gte('updated_at', twentyFourHoursAgo).order('score', { ascending: false }).limit(14),
       supabase.from('ph_trending').select('name,tagline,description,url,votes_count,thumbnail_url').gte('updated_at', twentyFourHoursAgo).order('votes_count', { ascending: false }).limit(14),
       supabase.from('ph_trending').select('name,tagline,description,url,votes_count,thumbnail_url').gte('updated_at', threeDaysAgo).order('votes_count', { ascending: false }).limit(40),
-      supabase.from('arxiv_trending').select('title,summary,authors,url').gte('updated_at', twentyFourHoursAgo).limit(14),
+      supabase.from('arxiv_trending').select('arxiv_id,title,summary,authors,url,published_at').gte('published_at', startOfWeekIso).order('published_at', { ascending: false }).limit(60),
       supabase.from('reddit_trending').select('title,subreddit,url,score,image_url,updated_at').gte('updated_at', sevenDaysAgo).order('score', { ascending: false }).limit(40)
     ]);
 
@@ -87,7 +131,19 @@ async function generateDailyReport() {
     const hnStories = hnStoriesRaw || [];
     const phPosts24h = (phPostsRaw24h || []).map(item => ({ ...item, tagline: truncate(item.tagline), description: truncate(item.description) }));
     const phPosts3d = (phPostsRaw3d || []).map(item => ({ ...item, tagline: truncate(item.tagline), description: truncate(item.description) }));
-    const arxivPapers = (arxivPapersRaw || []).map(item => ({
+    
+    // Filter ArXiv papers: Exclude any paper that has already appeared in this week's reports
+    const unseenWeekPapers = (arxivPapersRaw || []).filter(paper => {
+      const pId = extractArxivId(paper.arxiv_id || paper.url);
+      const pTitle = normalizeTitle(paper.title);
+      if (pId && publishedPaperIds.has(pId)) return false;
+      if (pTitle && publishedTitles.has(pTitle)) return false;
+      return true;
+    });
+
+    console.log(`[ArXiv Curation] Current week start: ${startOfWeekDateStr}. Already published this week: ${publishedPaperIds.size} paper(s). Candidates from this week: ${(arxivPapersRaw || []).length}. Unseen candidates: ${unseenWeekPapers.length}.`);
+
+    const arxivPapers = unseenWeekPapers.slice(0, 15).map(item => ({
       title: item.title,
       url: item.url,
       summary: truncate(item.summary, 100)
@@ -168,7 +224,7 @@ Craft a polished, engaging daily digest with the EXACT JSON structure below.
    - 'reddit' (Reddit): Up to 6 items (If there are fewer than 6 Reddit posts in the raw data, just return the number of items that exist. DO NOT hallucinate, invent, or pad with duplicate posts under any circumstances).
    - 'phPicks' (ProductHunt): 6 items (The absolute highest voted tools from <ProductHunt Recent Launches (Last 24 Hours)>)
    - 'aiTools' (ProductHunt): 7 items (Highly rated hidden gems from <ProductHunt Extended Tools (Last 3 Days)>, MUST NOT overlap with phPicks. Every tool must be completely unique)
-   - 'freshLinks' (ArXiv Papers): 4 items
+   - 'freshLinks' (ArXiv Papers): 4 items (MUST be selected exclusively from <ArXiv AI Papers>. Each paper must be unique and from this list)
 3. For descriptions:
    - For the FIRST item in the ProductHunt 'phPicks' array ONLY (which is featured in a large spotlight card), you may write a slightly longer description (an extra couple of words, 15-25 words max).
    - For ALL OTHER items across all arrays, descriptions MUST be STRICTLY ONE VERY SHORT SENTENCE MAX (under 10 words). The UI lists are small, so be extremely concise. AVOID repetitive phrasing like "A post about..." or "A new...". Jump straight to the point with punchy, action-oriented phrasing.
@@ -407,6 +463,64 @@ Return ONLY the JSON object.
       throw new Error(`CRITICAL: All providers failed to generate a valid report after ${maxAttempts} attempts.`);
     }
 
+    // 3.4 Guarantee 4 distinct unseen papers in freshLinks and paperOfTheDay from this week
+    if (parsedJson.freshLinks && unseenWeekPapers.length >= 4) {
+      const usedIdsThisRun = new Set();
+      const sanitizedFreshLinks = [];
+
+      for (const link of parsedJson.freshLinks) {
+        const linkId = extractArxivId(link.url);
+        const linkTitle = normalizeTitle(link.title);
+
+        const isAlreadyPublished = publishedPaperIds.has(linkId) || publishedTitles.has(linkTitle);
+        const isDuplicateInRun = usedIdsThisRun.has(linkId) || usedIdsThisRun.has(linkTitle);
+        const matchesCandidate = unseenWeekPapers.some(p => extractArxivId(p.arxiv_id || p.url) === linkId || normalizeTitle(p.title) === linkTitle);
+
+        if (!isAlreadyPublished && !isDuplicateInRun && matchesCandidate) {
+          sanitizedFreshLinks.push(link);
+          if (linkId) usedIdsThisRun.add(linkId);
+          if (linkTitle) usedIdsThisRun.add(linkTitle);
+        }
+      }
+
+      // If any paper was rejected (duplicate or already published), backfill from unseenWeekPapers
+      if (sanitizedFreshLinks.length < 4) {
+        console.log(`[ArXiv Curation] Backfilling ${4 - sanitizedFreshLinks.length} paper(s) from unseen pool...`);
+        for (const candidate of unseenWeekPapers) {
+          if (sanitizedFreshLinks.length >= 4) break;
+          const cId = extractArxivId(candidate.arxiv_id || candidate.url);
+          const cTitle = normalizeTitle(candidate.title);
+          if (!usedIdsThisRun.has(cId) && !usedIdsThisRun.has(cTitle)) {
+            sanitizedFreshLinks.push({
+              title: candidate.title,
+              category: 'AI Research',
+              image: '/fresh_link_1.png',
+              url: candidate.url,
+              description: truncate(candidate.summary, 60)
+            });
+            if (cId) usedIdsThisRun.add(cId);
+            if (cTitle) usedIdsThisRun.add(cTitle);
+          }
+        }
+      }
+
+      parsedJson.freshLinks = sanitizedFreshLinks.slice(0, 4);
+
+      // Validate paperOfTheDay
+      const potd = parsedJson.dailyReport?.paperOfTheDay;
+      const potdId = extractArxivId(potd?.url);
+      const potdTitle = normalizeTitle(potd?.name);
+      if (publishedPaperIds.has(potdId) || publishedTitles.has(potdTitle) || !unseenWeekPapers.some(p => extractArxivId(p.arxiv_id || p.url) === potdId || normalizeTitle(p.title) === potdTitle)) {
+        const fallbackPaper = sanitizedFreshLinks[0] || unseenWeekPapers[0];
+        if (fallbackPaper && parsedJson.dailyReport) {
+          console.log(`[ArXiv Curation] Setting paperOfTheDay to unseen candidate: "${fallbackPaper.title}"`);
+          parsedJson.dailyReport.paperOfTheDay = {
+            name: fallbackPaper.title,
+            url: fallbackPaper.url
+          };
+        }
+      }
+    }
 
     // 3.5 Generate AI thumbnails for Fresh Links
     if (parsedJson.freshLinks && parsedJson.freshLinks.length > 0) {

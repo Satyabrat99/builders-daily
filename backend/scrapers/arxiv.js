@@ -10,7 +10,7 @@ export async function scrapeArxiv() {
   console.log('[ArXiv] Fetching recent AI research papers...');
 
   try {
-    const url = 'http://export.arxiv.org/api/query?search_query=cat:cs.AI+OR+cat:cs.LG+OR+cat:cs.CL&sortBy=submittedDate&sortOrder=descending&max_results=15';
+    const url = 'http://export.arxiv.org/api/query?search_query=cat:cs.AI+OR+cat:cs.LG+OR+cat:cs.CL&sortBy=submittedDate&sortOrder=descending&max_results=60';
     const response = await fetchWithRetry(url);
 
     if (!response.ok) {
@@ -24,18 +24,19 @@ export async function scrapeArxiv() {
     let entries = jsonObj.feed?.entry || [];
     if (!Array.isArray(entries)) entries = [entries];
 
-    // Look back 3 days to account for ArXiv weekend publication pauses
+    // Look back 7 days to cover the entire current week and weekend publication pauses
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const threeDaysAgo = new Date(today);
-    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+    const lookbackDate = new Date(today);
+    lookbackDate.setDate(lookbackDate.getDate() - 7);
 
     const recentPapers = entries.filter(entry => {
       const publishedDate = new Date(entry.published);
-      return publishedDate >= threeDaysAgo;
+      return publishedDate >= lookbackDate;
     });
 
-    const finalPapers = recentPapers.slice(0, 10).map(entry => {
+    // Store up to 35 top papers so we maintain an abundant backlog for weekend reports
+    const finalPapers = recentPapers.slice(0, 35).map(entry => {
       let authors = entry.author || [];
       if (!Array.isArray(authors)) authors = [authors];
       const authorNames = authors.slice(0, 2).map(a => a.name).join(', ');

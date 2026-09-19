@@ -80,7 +80,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     boxSizing: 'border-box',
-    overflowX: 'hidden',
+    position: 'relative',
   },
   stateContainer: {
     padding: '100px 20px',
